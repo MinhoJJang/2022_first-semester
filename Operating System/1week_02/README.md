@@ -14,3 +14,4 @@ What are cache and Registers?
 
 Linux에서 vim(vi)에서 C언어로 Hello World 출력하고 제출하기 
 
+-> vim 다루는 법 공부해야함
