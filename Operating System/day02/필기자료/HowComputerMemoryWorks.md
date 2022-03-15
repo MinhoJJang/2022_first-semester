@@ -4,25 +4,25 @@
 
 When you think about it, it's amazing how many different types of electronic memory you encounter in daily life. Many of them have become an integral part of our vocabulary:
 
-RAM
-ROM
-Cache
-Dynamic RAM
-Static RAM
-Flash memory
-Memory Sticks
-Virtual memory
-Video memory
-BIOS
+RAM\
+ROM\
+Cache\
+Dynamic RAM\
+Static RAM\
+Flash memory\
+Memory Sticks\
+Virtual memory\
+Video memory\
+BIOS\
 
 You already know that the computer in front of you has memory. What you may not know is that most of the electronic items you use every day have some form of memory also. Here are just a few examples of the many items that use memory:
 
-Cell phones
-PDAs
-Game consoles
-Car radios
-VCRs
-TVs
+Cell phones\
+PDAs\
+Game consoles\
+Car radios\
+VCRs\
+TVs\
 
 In this article, you'll learn why there are so many different types of memory and what all of the terms mean. On the next page, let's start with the basics: What exactly does computer memory do?
 
@@ -36,14 +36,21 @@ The CPU accesses memory according to a distinct hierarchy. Whether it comes from
 
 All of the components in your computer, such as the CPU, the hard drive and the operating system, work together as a team, and memory is one of the most essential parts of this team. From the moment you turn your computer on until the time you shut it down, your CPU is constantly using memory. Let's take a look at a typical scenario:
 
-You turn the computer on.
-The computer loads data from read-only memory (ROM) and performs a power-on self-test (POST) to make sure all the major components are functioning properly. As part of this test, the memory controller checks all of the memory addresses with a quick read/write operation to ensure that there are no errors in the memory chips. Read/write means that data is written to a bit and then read from that bit.
-The computer loads the basic input/output system (BIOS) from ROM. The BIOS provides the most basic information about storage devices, boot sequence, security, Plug and Play (auto device recognition) capability and a few other items.
-The computer loads the operating system (OS) from the hard drive into the system's RAM. Generally, the critical parts of the operating system are maintained in RAM as long as the computer is on. This allows the CPU to have immediate access to the operating system, which enhances the performance and functionality of the overall system.
-When you open an application, it is loaded into RAM. To conserve RAM usage, many applications load only the essential parts of the program initially and then load other pieces as needed.
-After an application is loaded, any files that are opened for use in that application are loaded into RAM.
-When you save a file and close the application, the file is written to the specified storage device, and then it and the application are purged from RAM.
-­In the list above, every time something is loaded or opened, it is placed into RAM. This simply means that it has been put in the computer's temporary storage area so that the CPU can access that information more easily. The CPU requests the data it needs from RAM, processes it and writes new data back to RAM in a continuous cycle. In most computers, this shuffling of data between the CPU and RAM happens millions of times every second. When an application is closed, it and any accompanying files are usually purged (deleted) from RAM to make room for new data. If the changed files are not saved to a permanent storage device before being purged, they are lost.
+- You turn the computer on.
+
+- The computer loads data from read-only memory (ROM) and performs a power-on self-test (POST) to make sure all the major components are functioning properly. As part of this test, the memory controller checks all of the memory addresses with a quick read/write operation to ensure that there are no errors in the memory chips. Read/write means that data is written to a bit and then read from that bit.
+
+- The computer loads the basic input/output system (BIOS) from ROM. The BIOS provides the most basic information about storage devices, boot sequence, security, Plug and Play (auto device recognition) capability and a few other items.
+
+- The computer loads the operating system (OS) from the hard drive into the system's RAM. Generally, the critical parts of the operating system are maintained in RAM as long as the computer is on. This allows the CPU to have immediate access to the operating system, which enhances the performance and functionality of the overall system.
+
+- When you open an application, it is loaded into RAM. To conserve RAM usage, many applications load only the essential parts of the program initially and then load other pieces as needed.
+
+- After an application is loaded, any files that are opened for use in that application are loaded into RAM.
+
+- When you save a file and close the application, the file is written to the specified storage device, and then it and the application are purged from RAM.
+
+In the list above, every time something is loaded or opened, it is placed into RAM. This simply means that it has been put in the computer's temporary storage area so that the CPU can access that information more easily. The CPU requests the data it needs from RAM, processes it and writes new data back to RAM in a continuous cycle. In most computers, this shuffling of data between the CPU and RAM happens millions of times every second. When an application is closed, it and any accompanying files are usually purged (deleted) from RAM to make room for new data. If the changed files are not saved to a permanent storage device before being purged, they are lost.
 
 One common question about desktop computers that comes up all the time is, "Why does a computer need so many memory systems?"
 
@@ -53,10 +60,11 @@ One common question about desktop computers that comes up all the time is, "Why 
 
 A typical computer has:
 
-Level 1 and level 2 caches
-Normal system RAM
-Virtual memory
-A hard disk
+Level 1 and level 2 caches\
+Normal system RAM\
+Virtual memory\
+A hard disk\
+
 Why so many? The answer to this question can teach you a lot about memory!
 
 Fast, powerful CPUs need quick and easy access to large amounts of data in order to maximize their performance. If the CPU cannot get to the data it needs, it literally stops and waits for it. Modern CPUs running at speeds of about 1 gigahertz can consume massive amounts of data -- potentially billions of bytes per second. The problem that computer designers face is that memory that can keep up with a 1-gigahertz CPU is extremely expensive -- much more expensive than anyone can afford in large quantities.
