@@ -13,7 +13,7 @@ Flash memory\
 Memory Sticks\
 Virtual memory\
 Video memory\
-BIOS\
+BIOS
 
 You already know that the computer in front of you has memory. What you may not know is that most of the electronic items you use every day have some form of memory also. Here are just a few examples of the many items that use memory:
 
@@ -22,7 +22,7 @@ PDAs\
 Game consoles\
 Car radios\
 VCRs\
-TVs\
+TVs
 
 In this article, you'll learn why there are so many different types of memory and what all of the terms mean. On the next page, let's start with the basics: What exactly does computer memory do?
 
@@ -63,7 +63,7 @@ A typical computer has:
 Level 1 and level 2 caches\
 Normal system RAM\
 Virtual memory\
-A hard disk\
+A hard disk
 
 Why so many? The answer to this question can teach you a lot about memory!
 
