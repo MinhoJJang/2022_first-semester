@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>User Information</title>
+  </head>
+  <body>
+    <h1>Enter your information</h1>
+    <form action="#" method="get">
+      Name: <input type="text" name="uname" /><br />
+      ID: <input type="text" name="uid" /><br />
+      Password: <input type="password" name="upw" /><br />
+      Phone: <input type="text" name="uphone1" size="5" /> -
+      <input type="text" name="uphone2" size="5" /> -
+      <input type="text" name="uphone3" size="5" /><br />
+      Picture: <input type="file" name="upic" /><br />
+      Gender: <input type="radio" name="gender" value="m" />Man
+      <input type="radio" value="w" />Woman<br />
+      Language:
+      <input type="checkbox" name="language" value="kor" checked />Korean
+      <input type="checkbox" name="language" value="eng" />English
+      <input type="checkbox" name="language" value="jap" />Japanese
+      <input type="checkbox" name="language" value="chi" />Chinese<br />
+      Introduce yourself:
+      <textarea rows="5" cols="20">Briefly introduce yourself.</textarea><br />
+      Nationality:
+      <select name="nationality">
+        <option value="kor">KOREA</option>
+        <option value="usa">USA</option>
+        <option value="jap">JAPAN</option>
+        <option value="chi">CHINA</option>
+      </select>
+      <br />
+      Favorite foods:
+      <select multiple="multiple" name="fav foods">
+        <option value="kimchi">Kimchi</option>
+        <option value="bulgogi">Bulgogi</option>
+        <option value="pajeon">Pajeon</option>
+        <option value="bibimbap">Bibimbap</option>
+      </select>
+      <br /><br />
+      <input type="submit" value="Submit" />
+    </form>
+  </body>
+</html>
