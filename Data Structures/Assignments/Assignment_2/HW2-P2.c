@@ -68,7 +68,6 @@ int queue_full()
 
 int enqueue(int new_item)
 {
-
     // next_rear 을 만들어둔다.
     next_rear = (rear % Q_SIZE) + 1;
 
