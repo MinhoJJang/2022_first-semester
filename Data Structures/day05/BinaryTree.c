@@ -66,6 +66,20 @@ void btree_set_data(BTreeNode *bt, BTData data)
     bt->data = data;
 }
 
+void btree_delete(BTreeNode *bt)
+{
+    if (bt == NULL)
+        return;
+
+    // 삭제는 post order 방식(L -> R -> C) 순서로 지워야 한다
+    // 자기 자신을 지우기 전에 left, right 부터 지워야 한다
+
+    btree_delete(bt->pLeft);  // Left Clear
+    btree_delete(bt->pRight); // Right Clear
+    printf("Node Clear: %d \n", bt->data);
+    free(bt); // Center Clear
+}
+
 // bt의 left 에 sub tree 연결
 void btree_make_left(BTreeNode *bt, BTreeNode *sub)
 {
