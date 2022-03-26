@@ -136,7 +136,7 @@ void y_cord_sort(int N)
 {
     for (int i = 0; i < N - 1; i++)
     {
-        // 만약 i번째 x값과 i+1번쨰 x값이 같으면 조사 시작.
+        // 만약 i번째 x값과 i+1번째 x값이 같으면 조사 시작.
         if (inputArr[i].x == inputArr[i + 1].x)
         {
             int startIdx = i;    // 시작위치
