@@ -525,26 +525,26 @@ int main()
     print_tree(&Tree);
 
     // 추가로 실험한 코드
-    delete_key(150, &Tree);
+    // delete_key(150, &Tree);
 
-    delete_key(100, &Tree);
-    print_tree(&Tree);
+    // delete_key(100, &Tree);
+    // print_tree(&Tree);
 
-    insert_key(130, &Tree);
-    insert_key(140, &Tree);
-    insert_key(135, &Tree);
-    print_tree(&Tree);
+    // insert_key(130, &Tree);
+    // insert_key(140, &Tree);
+    // insert_key(135, &Tree);
+    // print_tree(&Tree);
 
-    delete_key(120, &Tree);
-    print_tree(&Tree);
+    // delete_key(120, &Tree);
+    // print_tree(&Tree);
 
-    delete_key(130, &Tree);
-    print_tree(&Tree);
+    // delete_key(130, &Tree);
+    // print_tree(&Tree);
 
-    delete_key(160, &Tree);
-    print_tree(&Tree);
+    // delete_key(160, &Tree);
+    // print_tree(&Tree);
 
-    delete_key(10, &Tree);
+    // delete_key(10, &Tree);
     return 0;
 }
 
