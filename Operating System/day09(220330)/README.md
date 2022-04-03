@@ -24,3 +24,5 @@ runner 가 먼저 실행되는지, printf가 먼저 실행되는지 모르기 �
 parent가 먼저 멈추든 멈추지 않든 간에 value 값이 0인 것은 변하지 않는다.
 
 ## (4) Discuss Possible output threads in chapter 4 slides pages 32-35. Explain how case 3 and case 4 can happen.
+
+어디서 interrupt가 발생했는지에 따라, 각 케이스가 가능한 경우가 존재한다.
