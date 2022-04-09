@@ -376,7 +376,7 @@ void delete_key(const int key, TREE *tree)
         */
 
         // loc = A
-        // NODE *replaceNode = find_smallest_node(&loc->right); // B
+        // NODE *replaceNode = find_smallest_node(loc->right); // B
         // NODE *replaceNodeParent = replaceNode->parent;       // C
         // NODE *deleteNodeLeftChild = loc->left;               // D
         // NODE *deleteNodeRightChild = loc->right;             // E
