@@ -11,7 +11,7 @@ int main()
         printf("even integer\n");
         printf("postive integer\n");
     }
-    else if (N > 0)
+    else if (N >= 0)
     {
         printf("postive integer\n");
     }
