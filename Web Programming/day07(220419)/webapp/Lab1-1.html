@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<style type="text/css">
+h2::first-letter {
+	color: red;
+	font-size: 30px;
+	text-transform: uppercase;
+}
+
+h3::first-line {
+	color: blue;
+}
+
+div {
+	visibility: hidden;
+}
+
+input:checked+div {
+	visibility: visible;
+}
+
+#hint {background-color: gray; color: white;}
+#answer{background-color: black; color: white;}
+
+</style>
+</head>
+<body>
+
+	<h2>question</h2>
+
+	<h3>What is the capital of Korea?</h3>
+
+	Write the answer:
+	<input type="text">
+
+	<h2>Answer</h2>
+
+
+	See hints:
+	<input type="checkbox">
+	<div id="hint" >The place where Namdaemun is located</div>
+
+See the answer:
+	<input type="checkbox">
+
+	<div id="answer" >SEOUL</div>
+
+</body>
+</html>

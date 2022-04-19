@@ -1,0 +1,106 @@
+@charset "UTF-8";
+
+body {
+	font-family: "Times New Roman";
+	font-size: 20px;
+	line-height: 130%;
+}
+
+#header {
+	width: 100%;
+	height: 100px;
+	background-color: mediumseagreen;
+	color: white;
+	position: relative;
+}
+
+#header p {
+	text-align: center;
+	font-size: 40px;
+	vertical-align: middle;
+	line-height: 100px;
+}
+
+#header, #footer {
+	font-weight: bold;
+}
+
+#navbar {
+
+	width: 100%;
+	text-align: left;
+	background-color: black;
+	color: white;
+}
+
+#navbar a {
+	padding-left: 3px;
+	padding-right: 3px;
+	text-decoration: none;
+	background-color: black;
+	color: white;
+}
+
+#navbar a:hover {
+	background-color: gray;
+	color: black;
+}
+
+#about, #main {
+	float: left;
+	padding: 10px;
+}
+
+#about {
+	box-sizing: border-box;
+	width: 20%;
+	background-color: lightslategray;
+}
+
+#about ul {
+	list-style-type: square;
+}
+
+img {
+	width: 30%;
+	height: 30%;
+	margin: 5% 35%;
+}
+
+#main {
+	box-sizing: border-box;
+	width: 80%;
+	background-color: #e7e5e7;
+}
+
+.year {
+	float: left;
+	font-style: italic;
+}
+
+.schoolName {
+	float: right;
+	font-weight: bold;
+}
+
+#footer {
+	width: 100%;
+	background-color: lightblue;
+	clear: both;
+	text-align: right;
+	font-style: italic;
+	line-height: 100%;
+}
+
+@media ( max-width : 700px) {
+	#navbar a{
+	text-align: center;
+
+	display: block;
+	line-height: 130%;
+	}
+	#about, #main {
+		clear: both;
+		width: 100%;
+	}
+}
