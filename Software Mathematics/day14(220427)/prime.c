@@ -22,7 +22,7 @@ int findPrimeNumber(int N)
 
     for (int i = 2; i <= squareRoot; i++)
     {
-        if (K % i == 0)
+        if (N % i == 0)
         {
             flag = NOTPRIME;
             break;
