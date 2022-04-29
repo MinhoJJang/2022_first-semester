@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -146,7 +145,9 @@ int main()
     million = (struct kd_node_t *)calloc(N, sizeof(struct kd_node_t));
     srand(time(0));
     for (i = 0; i < N; i++)
+    {
         rand_pt(million[i]);
+    }
 
     root = make_tree(million, N, 0, 3);
     rand_pt(testNode);
