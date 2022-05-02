@@ -8,7 +8,8 @@
 struct kd_node_t
 {
     double x[MAX_DIM];
-    struct kd_node_t *left, *right;
+    struct kd_node_t *left;
+    struct kd_node_t *right;
 };
 
 inline double dist(struct kd_node_t *a, struct kd_node_t *b, int dim)
