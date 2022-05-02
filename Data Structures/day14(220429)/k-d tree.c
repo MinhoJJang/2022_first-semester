@@ -12,7 +12,7 @@ struct kd_node_t
     struct kd_node_t *right;
 };
 
-inline double dist(struct kd_node_t *a, struct kd_node_t *b, int dim)
+double dist(struct kd_node_t *a, struct kd_node_t *b, int dim)
 {
     double t, d = 0;
     while (dim--)
@@ -22,7 +22,7 @@ inline double dist(struct kd_node_t *a, struct kd_node_t *b, int dim)
     }
     return d;
 }
-inline void swap(struct kd_node_t *x, struct kd_node_t *y)
+void swap(struct kd_node_t *x, struct kd_node_t *y)
 {
     double tmp[MAX_DIM];
     memcpy(tmp, x->x, sizeof(tmp));
