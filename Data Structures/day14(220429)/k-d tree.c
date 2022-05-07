@@ -40,7 +40,6 @@ void swap(struct kd_node_t *x, struct kd_node_t *y)
 // 여기서 idx는 어떤 축을 기준으로 start와 end를 나눌 것인지 알려주는, 정수값이다.
 struct kd_node_t *find_median(struct kd_node_t *start, struct kd_node_t *end, int idx)
 {
-
     if (end <= start)
     {
         return NULL;
@@ -136,27 +135,199 @@ void nearest(struct kd_node_t *root, struct kd_node_t *nd, int i, int dim, struc
     nearest(dx > 0 ? root->right : root->left, nd, i, dim, best, best_dist);
 }
 
-void rangeSearch()
+// To test the range_search function, specify a rectangle with (left x=6, left y=3), width 3,height 4.
+typedef struct _square
 {
+    int x;
+    int y;
+    // 편의상, Square의 기준점은 사각형의 왼쪽 위 점을 택하였다.
+
+    int width;
+    int height;
+} Square;
+
+typedef struct _point
+{
+    int x;
+    int y;
+} Point;
+
+void squareInit(Square *sq, int x, int y, int width, int height)
+{
+    sq->x = x;
+    sq->y = y;
+    sq->width = width;
+    sq->height = height;
+}
+
+// 주어진 사각형 내부에 점이 있는지 판독하는 함수.
+// i는 무슨 축을 기준으로 나누는지 대한 정보이다. i라고 쓴 이유는 단순히 주어진 코드에서 i를 이미 해당 정보를 표시하는 데 사용했기 때문에 통일성을 위해 사용했다.
+
+#define MAX 100
+#define NOMOREDATA 0
+
+int idx = 0;   // 사각형 내부에 있는 점 개수
+Point pt[MAX]; // 사각형 내부의 점의 좌표
+
+int rangeSearch(Square *sq, struct kd_node_t *root, int i, int dim)
+{
+    /* 모든 주어진 사각형에 대하여 2가지 경우가 존재한다.
+        1. 해당 Square가, 해당 점이 나누는 구역 중 하나에 완전하게 들어갈 때.
+            -> 오른쪽 구역인지, 왼쪽 구역인지 찾고, 이 함수를 재귀호출한다.
+        2. 해당 Square가, 해당 점이 나누는 선에 의해 나누어지는 경우
+            -> 이때 해당 점이 Square 내부에 들어가는지 아닌지 검사한다. 그리고, 왼쪽 오른쪽 모두 다 rangeSearch를 호출한다.
+    */
+    if (i == 0) // x축이 기준일 때
+    {
+        int x_value = root->x[0];
+        int y_value = root->x[1];
+        i = (i + 1) % dim;
+
+        if (x_value <= sq->x)
+        {
+            if (y_value <= sq->y && y_value >= sq->y - sq->height && x_value == sq->x)
+            {
+                pt[idx].x = x_value;
+                pt[idx].y = y_value;
+                idx++;
+            }
+
+            if (root->right != NULL)
+            {
+                rangeSearch(sq, root->right, i, dim);
+            }
+        }
+        else if (x_value >= sq->x + sq->width)
+        {
+            if (y_value <= sq->y && y_value >= sq->y - sq->height && x_value == sq->x + sq->width)
+            {
+                pt[idx].x = x_value;
+                pt[idx].y = y_value;
+                idx++;
+            }
+            if (root->left != NULL)
+            {
+                rangeSearch(sq, root->left, i, dim);
+            }
+        }
+        else
+        {
+            // 이때 root 점이 square 내부에 있는지 검사한다. 이때 x축은 이미 검증되었으므로 y 축만 하면 된다.
+            if (y_value <= sq->y && y_value >= sq->y - sq->height)
+            {
+                pt[idx].x = x_value;
+                pt[idx].y = y_value;
+                idx++;
+            }
+            // 이제 양쪽 다 재귀호출한다. 이때 사각형이 두개로 쪼개졌으므로 각각 구별하여 만들어주자.
+
+            if (root->left != NULL)
+            {
+                Square sq_left;
+                squareInit(&sq_left, sq->x, sq->y, x_value - sq->x, sq->height);
+                rangeSearch(&sq_left, root->left, i, dim);
+            }
+            if (root->right != NULL)
+            {
+                Square sq_right;
+                squareInit(&sq_right, x_value, sq->y, sq->width - (x_value - sq->x), sq->height);
+                rangeSearch(&sq_right, root->right, i, dim);
+            }
+        }
+        // printf("NOMOREDATA! CurrentLocation is x: %f, y: %f\n", root->x[0], root->x[1]);
+        return NOMOREDATA;
+    }
+    else if (i == 1) // y축이 기준일 때
+    {
+        int x_value = root->x[0];
+        int y_value = root->x[1];
+        i = (i + 1) % dim;
+
+        if (y_value <= sq->y - sq->height)
+        {
+            if (x_value >= sq->x && x_value <= sq->x + sq->width && y_value == sq->y - sq->height)
+            {
+                pt[idx].x = x_value;
+                pt[idx].y = y_value;
+                idx++;
+            }
+            if (root->right != NULL)
+            {
+                rangeSearch(sq, root->right, i, dim);
+            }
+        }
+        else if (y_value >= sq->y)
+        {
+            if (x_value >= sq->x && x_value <= sq->x + sq->width && y_value == sq->y)
+            {
+                pt[idx].x = x_value;
+                pt[idx].y = y_value;
+                idx++;
+            }
+
+            if (root->left != NULL)
+            {
+                rangeSearch(sq, root->left, i, dim);
+            }
+        }
+        else
+        {
+            // 이때 root 점이 square 내부에 있는지 검사한다. 이때 y축은 이미 검증되었으므로 x 축만 하면 된다.
+            if (x_value >= sq->x && x_value <= sq->x + sq->width)
+            {
+                pt[idx].x = x_value;
+                pt[idx].y = y_value;
+                idx++;
+            }
+            // 이제 양쪽 다 재귀호출한다. 이때 사각형이 두개로 쪼개졌으므로 각각 구별하여 만들어주자.
+
+            if (root->right != NULL)
+            {
+                Square sq_top;
+                squareInit(&sq_top, sq->x, sq->y, sq->width, sq->y - y_value);
+                rangeSearch(&sq_top, root->right, i, dim);
+            }
+            if (root->left != NULL)
+            {
+                Square sq_bottom;
+                squareInit(&sq_bottom, sq->x, y_value, sq->width, sq->height - (sq->y - y_value));
+                rangeSearch(&sq_bottom, root->left, i, dim);
+            }
+        }
+        // printf("NOMOREDATA! CurrentLocation is x: %f, y: %f\n", root->x[0], root->x[1]);
+        return NOMOREDATA;
+    }
+
+    return idx;
 }
 
 int main()
 {
-    int i;
-    struct kd_node_t wp[] = {{{2, 3}}, {{5, 4}}, {{9, 6}}, {{4, 7}}, {{8, 1}}, {{7, 2}}};
-    struct kd_node_t testNode = {{4, 4}};
-    struct kd_node_t *root, *found, *million;
+    struct kd_node_t wp[] = {{{2, 3}}, {{3, 4}}, {{5, 4}}, {{9, 6}}, {{4, 7}}, {{8, 1}}, {{7, 2}}};
+    struct kd_node_t testNode = {{8, 2}};
+    struct kd_node_t *root, *found;
     double best_dist;
 
+    // 이미, 주어진 코드의 함수를 통해 해당 노드를 찾고 해당 노드에서 가장 가까운 점까지 나온다. 여기서 우리는 nearest 를 보강하여, 해당 점 외에도 가장 가까운 점이 또 있는지 찾아내는 것만 더해주면 될 것이다.
     root = make_tree(wp, sizeof(wp) / sizeof(wp[1]), 0, 2);
 
-    visited = 0;
-    found = 0;
-    nearest(root, &testNode, 0, 2, &found, &best_dist);
+    Square sq;
+    squareInit(&sq, 6, 3, 3, 4);
+    rangeSearch(&sq, root, 0, 2);
 
-    printf(">> WP tree\nsearching for (%g, %g)\n"
-           "found (%g, %g) dist %g\nseen %d nodes\n\n",
-           testNode.x[0], testNode.x[1], found->x[0], found->x[1], sqrt(best_dist), visited);
+    printf("점 개수: %d\n", idx);
+    for (int i = 0; i < idx; i++)
+    {
+        printf("(%d, %d)\n", pt[i].x, pt[i].y);
+    }
+
+    // visited = 0;
+    // found = 0;
+    // nearest(root, &testNode, 0, 2, &found, &best_dist);
+
+    // printf(">> WP tree\nsearching for (%g, %g)\n"
+    //        "found (%g, %g) dist %g\nseen %d nodes\n\n",
+    //        testNode.x[0], testNode.x[1], found->x[0], found->x[1], sqrt(best_dist), visited);
 
     return 0;
 }
