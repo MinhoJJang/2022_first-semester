@@ -160,15 +160,14 @@ void squareInit(Square *sq, int x, int y, int width, int height)
     sq->height = height;
 }
 
-// 주어진 사각형 내부에 점이 있는지 판독하는 함수.
-// i는 무슨 축을 기준으로 나누는지 대한 정보이다. i라고 쓴 이유는 단순히 주어진 코드에서 i를 이미 해당 정보를 표시하는 데 사용했기 때문에 통일성을 위해 사용했다.
-
 #define MAX 100
 #define NOMOREDATA 0
 
 int idx = 0;   // 사각형 내부에 있는 점 개수
 Point pt[MAX]; // 사각형 내부의 점의 좌표
 
+// 주어진 사각형 내부에 점이 있는지 판독하는 함수.
+// i는 무슨 축을 기준으로 나누는지 대한 정보이다. i라고 쓴 이유는 단순히 주어진 코드에서 i를 이미 해당 정보를 표시하는 데 사용했기 때문에 통일성을 위해 사용했다.
 int rangeSearch(Square *sq, struct kd_node_t *root, int i, int dim)
 {
     /* 모든 주어진 사각형에 대하여 2가지 경우가 존재한다.
@@ -177,6 +176,9 @@ int rangeSearch(Square *sq, struct kd_node_t *root, int i, int dim)
         2. 해당 Square가, 해당 점이 나누는 선에 의해 나누어지는 경우
             -> 이때 해당 점이 Square 내부에 들어가는지 아닌지 검사한다. 그리고, 왼쪽 오른쪽 모두 다 rangeSearch를 호출한다.
     */
+
+    // 0508 기준 코드최적화 해야함. 겹치는 코드가 너무 많다.
+
     if (i == 0) // x축이 기준일 때
     {
         int x_value = root->x[0];
@@ -185,6 +187,7 @@ int rangeSearch(Square *sq, struct kd_node_t *root, int i, int dim)
 
         if (x_value <= sq->x)
         {
+            // 선과 사각형이 겹칠 때. 선 오른쪽에 사각형이 있지만, 그 사각형의 왼쪽 모서리와 선이 서로 겹칠 때, 그 선 상에 점이 있는지 확인한다.
             if (y_value <= sq->y && y_value >= sq->y - sq->height && x_value == sq->x)
             {
                 pt[idx].x = x_value;
@@ -192,6 +195,7 @@ int rangeSearch(Square *sq, struct kd_node_t *root, int i, int dim)
                 idx++;
             }
 
+            // 해당 선에서 사각형이 오른쪽에 위치했으므로 root->right에서 찾는다.
             if (root->right != NULL)
             {
                 rangeSearch(sq, root->right, i, dim);
@@ -280,7 +284,6 @@ int rangeSearch(Square *sq, struct kd_node_t *root, int i, int dim)
                 idx++;
             }
             // 이제 양쪽 다 재귀호출한다. 이때 사각형이 두개로 쪼개졌으므로 각각 구별하여 만들어주자.
-
             if (root->right != NULL)
             {
                 Square sq_top;
@@ -312,7 +315,7 @@ int main()
     root = make_tree(wp, sizeof(wp) / sizeof(wp[1]), 0, 2);
 
     Square sq;
-    squareInit(&sq, 6, 3, 3, 4);
+    squareInit(&sq, 1, 6, 10, 10);
     rangeSearch(&sq, root, 0, 2);
 
     printf("점 개수: %d\n", idx);
