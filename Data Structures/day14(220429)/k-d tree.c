@@ -122,6 +122,11 @@ void nearest(struct kd_node_t *root, struct kd_node_t *nd, int i, int dim, struc
         *best = root;
     }
 
+    printf("지정한 점의 좌표 (%f, %f)\n", nd->x[0], nd->x[1]);
+    printf("현재좌표 %f, %f\n", root->x[0], root->x[1]);
+    printf("*best_dist 값: %f\n", *best_dist);
+    printf("==========\n");
+
     /* if chance of exact match is high */
     if (!*best_dist)
         return;
@@ -314,6 +319,7 @@ int main()
     // 이미, 주어진 코드의 함수를 통해 해당 노드를 찾고 해당 노드에서 가장 가까운 점까지 나온다. 여기서 우리는 nearest 를 보강하여, 해당 점 외에도 가장 가까운 점이 또 있는지 찾아내는 것만 더해주면 될 것이다.
     root = make_tree(wp, sizeof(wp) / sizeof(wp[1]), 0, 2);
 
+    // 2번문제
     Square sq;
     squareInit(&sq, 1, 6, 10, 10);
     rangeSearch(&sq, root, 0, 2);
@@ -324,13 +330,15 @@ int main()
         printf("(%d, %d)\n", pt[i].x, pt[i].y);
     }
 
-    // visited = 0;
-    // found = 0;
-    // nearest(root, &testNode, 0, 2, &found, &best_dist);
+    // 3번문제
 
-    // printf(">> WP tree\nsearching for (%g, %g)\n"
-    //        "found (%g, %g) dist %g\nseen %d nodes\n\n",
-    //        testNode.x[0], testNode.x[1], found->x[0], found->x[1], sqrt(best_dist), visited);
+    visited = 0;
+    found = 0;
+    nearest(root, &testNode, 0, 2, &found, &best_dist);
+
+    printf(">> WP tree\nsearching for (%g, %g)\n"
+           "found (%g, %g) dist %g\nseen %d nodes\n\n",
+           testNode.x[0], testNode.x[1], found->x[0], found->x[1], sqrt(best_dist), visited);
 
     return 0;
 }
