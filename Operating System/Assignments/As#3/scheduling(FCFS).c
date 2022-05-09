@@ -135,12 +135,12 @@ void runProcess(PCB p)
     if (processNumberInReadyQueue > 0)
     {
         int burstTime = p.burst_time;
-
+        checkIfProcessArrive(); // 혹시 다른 프로세스가 도착했는지 확인한다.
         for (int i = 0; i < burstTime; i++)
         {
-            checkIfProcessArrive(); // 혹시 다른 프로세스가 도착했는지 확인한다.
             printTimeFlow(RUNNING, p);
             currentTime++;
+            checkIfProcessArrive();
         }
         printTimeFlow(FINISHED, p); // burst Time이 모두 종료되면 finish시킨다.
 
@@ -185,6 +185,10 @@ void checkIfProcessArrive()
     else if (IsRunningNow == NO)
     {
         printTimeFlow(IDLE, arrivingProcess);
+        if (numberOfIdle > 50)
+        {
+            finishedFlag = YES;
+        }
         return;
     }
 }

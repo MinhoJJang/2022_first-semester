@@ -21,26 +21,23 @@ typedef struct _PCB
     int priority;
     int arrival_time;
     int burst_time;
+
 } PCB;
+
+typedef struct _Time
+{
+    int waiting_time;
+
+} Time;
 
 PCB job_queue[MAX];
 PCB ready_queue[MAX];
 PCB process[MAX_PROCESS];
 
-int NumberOfJobs = 0;              // 입력받은 전체 프로세스 개수
-int processNumberInReadyQueue = 0; // ready_queue에 들어간 프로세스 개수
-int ready_idx = 0;                 // ready_queue의 idx
-int finishedProcessNumber = 0;     // 종료된 프로세스 개수
-int finishedFlag = NO;             // 모든 프로세스가 종료되었는지 여부
-int IsRunningNow = NO;             // 현재 running state에 있는 프로세스가 있는지 여부
-int currentTime = 0;               // 전역변수로 설정. 현재시간을 의미한다.
+int NumberOfJobs = 0; // 입력받은 전체 프로세스 개수
 
-// 아래 변수들은 FCFS의 cpu usage, waiting time, response time, turnaround time 을 계산하기 위해 존재한다.
-int numberOfIdle = 0;          // cpu가 idle 된 횟수
-int arrivalTimeSum = 0;        // 프로세스가 도착한 시간의 합
-int contextSwitchTimeSum = 0;  // 프로세스가 context switch된 시간의 합
-int numberOfContextSwitch = 0; // contextSwitch 한 횟수
-int finishTimeSum = 0;         // 프로세스가 끝난 시간의 합
+int currentTime = 0; // 전역변수로 설정. 현재시간을 의미한다.
+int slice;           // RR의 time quantum을 의미한다.
 
 void checkIfProcessArrive();
 
@@ -80,131 +77,30 @@ void printTimeFlow(int state, PCB p)
     {
     case IDLE:
         printf("---- system is idle ----\n");
-        numberOfIdle++;
+
         break;
     case NEW_ARRIVAL:
         printf("[new arrival] process %d\n", p.pid);
-        arrivalTimeSum += currentTime;
+
         break;
     case RUNNING:
         printf("process %d is running\n", p.pid);
         break;
     case FINISHED:
         printf("process %d is finished\n", p.pid);
-        processNumberInReadyQueue--; // 프로세스가 종료했으므로 1 감소시켜준다.
-        finishedProcessNumber++;
-        IsRunningNow = NO;
-        finishTimeSum += currentTime;
+
         break;
     case CONTEXT_SWITCH:
         printf("------------------------- (Context-Switch)\n");
-        contextSwitchTimeSum += currentTime;
-        numberOfContextSwitch++;
-        currentTime += 1;
+
         break;
     case ALL_FINISHED:
         printf("all processes finish\n");
-        finishedFlag = YES;
+
     default:
         break;
     }
 }
-
-void calculateCriteria()
-{
-    double averageCpuUsage;
-    double averageWaitingTime;
-    double averageResponseTime;
-    double averageTurnaroundTime;
-    int finalTime = currentTime; // 모든 실행을 마치고 난 뒤에 계산한다.
-
-    averageCpuUsage = ((double)(finalTime - numberOfIdle - numberOfContextSwitch) / finalTime) * 100;
-    averageWaitingTime = (double)(contextSwitchTimeSum - arrivalTimeSum) / NumberOfJobs;
-    averageResponseTime = (double)(contextSwitchTimeSum - arrivalTimeSum) / NumberOfJobs;
-    averageTurnaroundTime = (double)(finishTimeSum - arrivalTimeSum) / NumberOfJobs;
-
-    printf("Average cpu usage : %.2f %\n", averageCpuUsage);
-    printf("Avarage waiting time : %.1f\n", averageWaitingTime);
-    printf("Avarage response time : %.1f\n", averageResponseTime);
-    printf("Avarage turnaround time: %.1f\n", averageTurnaroundTime);
-}
-
-// 프로세스를 실행시키는 함수. 실행 과정에서 발생할 수 있는 일들에 대해 모두 표현해놓았다.
-void runProcess(PCB p)
-{
-    if (processNumberInReadyQueue > 0)
-    {
-        int burstTime = p.burst_time;
-
-        for (int i = 0; i < burstTime; i++)
-        {
-            checkIfProcessArrive(); // 혹시 다른 프로세스가 도착했는지 확인한다.
-            printTimeFlow(RUNNING, p);
-            currentTime++;
-        }
-        printTimeFlow(FINISHED, p); // burst Time이 모두 종료되면 finish시킨다.
-
-        // 만약 모든 프로세스에 대해 작업이 끝났다면 즉시 종료한다.
-        if (finishedProcessNumber == NumberOfJobs)
-        {
-            printTimeFlow(ALL_FINISHED, p);
-        }
-
-        // 이때, 만약 readyQueue에 하나 이상의 프로세스가 대기 상태일 경우 context switch 와 함께 다음 프로세스를 실행시켜주면 된다. 만약 아닐 경우 idle 상태이다.
-        if (processNumberInReadyQueue > 0)
-        {
-            printTimeFlow(CONTEXT_SWITCH, p);
-            IsRunningNow = YES;
-            runProcess(ready_queue[finishedProcessNumber]);
-        }
-    }
-}
-// 프로세스가 도착했는지 체크하고, 도착했을 경우 ready_queue에 프로세스를 넣는 함수.
-void checkIfProcessArrive()
-{
-    if (finishedProcessNumber >= NumberOfJobs)
-    {
-        finishedFlag = YES;
-        return;
-    }
-
-    PCB arrivingProcess = job_queue[ready_idx]; // 미리 정렬해놓았기 때문에 맨 앞의 job_queue가 가장 먼저 도착한다고 예상할 수 있다.
-
-    if (arrivingProcess.arrival_time == currentTime)
-    {
-        ready_queue[ready_idx] = arrivingProcess;
-        printTimeFlow(NEW_ARRIVAL, arrivingProcess);
-        processNumberInReadyQueue++;
-        ready_idx++;
-        if (IsRunningNow == NO)
-        {
-            IsRunningNow = YES;
-            runProcess(ready_queue[finishedProcessNumber]);
-        }
-    }
-    else if (IsRunningNow == NO && arrivingProcess.arrival_time != currentTime)
-    {
-        printTimeFlow(IDLE, arrivingProcess);
-    }
-}
-
-// 스케줄링 진행하는 함수
-void FCFS_scheduling()
-{
-    printf("Scheduling : FCFS\n");
-    printf("=============================================\n");
-
-    sortJobQueue();
-    while (finishedFlag == NO)
-    {
-        checkIfProcessArrive();
-        currentTime++;
-    }
-    printf("=============================================\n");
-    calculateCriteria();
-}
-
-int slice; // RR의 time quantum을 의미한다.
 
 int main(int argc, char *argv[])
 {
