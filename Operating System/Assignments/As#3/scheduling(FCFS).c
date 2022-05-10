@@ -27,12 +27,12 @@ PCB job_queue[MAX];
 PCB ready_queue[MAX];
 PCB process[MAX_PROCESS];
 
-int NumberOfJobs = 0;              // 입력받은 전체 프로세스 개수
+int numberOfJobs = 0;              // 입력받은 전체 프로세스 개수
 int processNumberInReadyQueue = 0; // ready_queue에 들어간 프로세스 개수
 int ready_idx = 0;                 // ready_queue의 idx
-int finishedProcessNumber = 0;     // 종료된 프로세스 개수
+int numberOfFinishedProcess = 0;   // 종료된 프로세스 개수
 int finishedFlag = NO;             // 모든 프로세스가 종료되었는지 여부
-int IsRunningNow = NO;             // 현재 running state에 있는 프로세스가 있는지 여부
+int runningState = NO;             // 현재 running state에 있는 프로세스가 있는지 여부
 int currentTime = 0;               // 전역변수로 설정. 현재시간을 의미한다.
 
 // 아래 변수들은 FCFS의 cpu usage, waiting time, response time, turnaround time 을 계산하기 위해 존재한다.
@@ -49,10 +49,10 @@ void checkIfProcessArrive();
 // job_queue에 있는 process들을 arrival time 을 기준으로 정렬해준다. process 개수가 기껏해야 10개밖에 되지 않으므로 단순하게 sort 해준다. 오름차순 정렬.
 void sortJobQueue()
 {
-    for (int i = 0; i < NumberOfJobs - 1; i++)
+    for (int i = 0; i < numberOfJobs - 1; i++)
     {
 
-        for (int j = i + 1; j < NumberOfJobs; j++)
+        for (int j = i + 1; j < numberOfJobs; j++)
         {
             PCB frontProcess = job_queue[j - 1];
             PCB backProcess = job_queue[j];
@@ -92,12 +92,12 @@ void printTimeFlow(int state, PCB p)
     case FINISHED:
         printf("process %d is finished\n", p.pid);
         processNumberInReadyQueue--; // 프로세스가 종료했으므로 1 감소시켜준다.
-        finishedProcessNumber++;
-        IsRunningNow = NO;
+        numberOfFinishedProcess++;
+        runningState = NO;
         finishTimeSum += currentTime;
         break;
     case CONTEXT_SWITCH:
-        printf("------------------------- (Context-Switch)\n");
+        printf("--------------------------------- (Context-Switch)\n");
         contextSwitchTimeSum += currentTime;
         numberOfContextSwitch++;
         currentTime += 1;
@@ -119,23 +119,30 @@ void calculateCriteria()
     int finalTime = currentTime; // 모든 실행을 마치고 난 뒤에 계산한다.
 
     averageCpuUsage = ((double)(finalTime - numberOfIdle - numberOfContextSwitch) / finalTime) * 100;
-    averageWaitingTime = (double)(contextSwitchTimeSum - arrivalTimeSum) / NumberOfJobs;
-    averageResponseTime = (double)(contextSwitchTimeSum - arrivalTimeSum) / NumberOfJobs;
-    averageTurnaroundTime = (double)(finishTimeSum - arrivalTimeSum) / NumberOfJobs;
+    averageWaitingTime = (double)(contextSwitchTimeSum - arrivalTimeSum) / numberOfJobs;
+    averageResponseTime = (double)(contextSwitchTimeSum - arrivalTimeSum) / numberOfJobs;
+    averageTurnaroundTime = (double)(finishTimeSum - arrivalTimeSum) / numberOfJobs;
+    // TODO conSTsum 고치기
 
     printf("Average cpu usage : %.2f %\n", averageCpuUsage);
     printf("Avarage waiting time : %.1f\n", averageWaitingTime);
     printf("Avarage response time : %.1f\n", averageResponseTime);
     printf("Avarage turnaround time: %.1f\n", averageTurnaroundTime);
 }
-
+int noMoreArrival = NO;
 // 프로세스를 실행시키는 함수. 실행 과정에서 발생할 수 있는 일들에 대해 모두 표현해놓았다.
 void runProcess(PCB p)
 {
     if (processNumberInReadyQueue > 0)
     {
         int burstTime = p.burst_time;
-        checkIfProcessArrive(); // 혹시 다른 프로세스가 도착했는지 확인한다.
+        int maxArrivalCount = numberOfJobs - numberOfFinishedProcess;
+        while (noMoreArrival != YES || maxArrivalCount > 0) // 혹시 다른 프로세스가 도착했는지 확인한다.
+        {
+            checkIfProcessArrive();
+            maxArrivalCount--;
+        }
+
         for (int i = 0; i < burstTime; i++)
         {
             printTimeFlow(RUNNING, p);
@@ -145,7 +152,7 @@ void runProcess(PCB p)
         printTimeFlow(FINISHED, p); // burst Time이 모두 종료되면 finish시킨다.
 
         // 만약 모든 프로세스에 대해 작업이 끝났다면 즉시 종료한다.
-        if (finishedProcessNumber == NumberOfJobs)
+        if (numberOfFinishedProcess == numberOfJobs)
         {
             printTimeFlow(ALL_FINISHED, p);
         }
@@ -154,42 +161,41 @@ void runProcess(PCB p)
         if (processNumberInReadyQueue > 0)
         {
             printTimeFlow(CONTEXT_SWITCH, p);
-            IsRunningNow = YES;
-            runProcess(ready_queue[finishedProcessNumber]);
+            runningState = YES;
+            runProcess(ready_queue[numberOfFinishedProcess]);
         }
     }
 }
 // 프로세스가 도착했는지 체크하고, 도착했을 경우 ready_queue에 프로세스를 넣는 함수.
 void checkIfProcessArrive()
 {
-    if (finishedProcessNumber >= NumberOfJobs)
+    if (numberOfFinishedProcess >= numberOfJobs)
     {
         finishedFlag = YES;
         return;
     }
 
-    PCB arrivingProcess = job_queue[ready_idx]; // 미리 정렬해놓았기 때문에 맨 앞의 job_queue가 가장 먼저 도착한다고 예상할 수 있다.
+    PCB arriveProcess = job_queue[ready_idx]; // 미리 정렬해놓았기 때문에 맨 앞의 job_queue가 가장 먼저 도착한다고 예상할 수 있다.
 
-    if (arrivingProcess.arrival_time == currentTime)
+    if (arriveProcess.arrival_time == currentTime)
     {
-        ready_queue[ready_idx] = arrivingProcess;
-        printTimeFlow(NEW_ARRIVAL, arrivingProcess);
+        ready_queue[ready_idx] = arriveProcess;
+        printTimeFlow(NEW_ARRIVAL, arriveProcess);
         processNumberInReadyQueue++;
         ready_idx++;
-        if (IsRunningNow == NO)
+        if (runningState == NO)
         {
-            IsRunningNow = YES;
-            runProcess(ready_queue[finishedProcessNumber]);
+            runningState = YES;
+            runProcess(ready_queue[numberOfFinishedProcess]);
         }
     }
-    else if (IsRunningNow == NO)
+    else if (runningState == NO)
     {
-        printTimeFlow(IDLE, arrivingProcess);
-        if (numberOfIdle > 50)
-        {
-            finishedFlag = YES;
-        }
-        return;
+        printTimeFlow(IDLE, arriveProcess);
+    }
+    else
+    {
+        noMoreArrival = YES;
     }
 }
 
@@ -255,9 +261,9 @@ int main(int argc, char *argv[])
             break;
         case 0:
             process[process_idx].burst_time = userData[i];
-            job_queue[NumberOfJobs] = process[process_idx];
+            job_queue[numberOfJobs] = process[process_idx];
             process_idx++;
-            NumberOfJobs++;
+            numberOfJobs++;
             break;
         default:
             break;
