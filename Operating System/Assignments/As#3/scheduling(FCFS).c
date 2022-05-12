@@ -3,7 +3,7 @@
 #include <string.h>
 
 #define MAX_PROCESS 15
-#define MAX 200
+#define MAX 20
 
 #define IDLE 0
 #define NEW_ARRIVAL 1
@@ -21,6 +21,13 @@ typedef struct _PCB
     int priority;
     int arrival_time;
     int burst_time;
+    int firstServedTime;
+    int isFirstServed;
+    int finishTime;
+
+    double waitingTime;
+    double responseTime;
+    double turnaroundTime;
 } PCB;
 
 PCB job_queue[MAX];
@@ -41,6 +48,7 @@ int arrivalTimeSum = 0;        // 프로세스가 도착한 시간의 합
 int contextSwitchTimeSum = 0;  // 프로세스가 context switch된 시간의 합
 int numberOfContextSwitch = 0; // contextSwitch 한 횟수
 int finishTimeSum = 0;         // 프로세스가 끝난 시간의 합
+int allFinishTime = 0;         // 모든 프로세스가 종료된 시간
 
 void checkIfProcessArrive();
 
@@ -69,7 +77,7 @@ void sortJobQueue()
 }
 
 // TimeFlow를 출력하는 함수
-void printTimeFlow(int state, PCB p)
+void printTimeFlow(int state, PCB *p)
 {
     if (state != CONTEXT_SWITCH)
     {
@@ -83,64 +91,128 @@ void printTimeFlow(int state, PCB p)
         numberOfIdle++;
         break;
     case NEW_ARRIVAL:
-        printf("[new arrival] process %d\n", p.pid);
-        arrivalTimeSum += currentTime;
+        printf("[new arrival] process %d\n", p->pid);
+
+        for (int i = 0; i < numberOfJobs; i++)
+        {
+            if (job_queue[i].pid == p->pid)
+            {
+                job_queue[i].arrival_time = currentTime;
+                job_queue[i].isFirstServed = YES;
+                break;
+            }
+        }
         break;
     case RUNNING:
-        printf("process %d is running\n", p.pid);
+        printf("process %d is running\n", p->pid);
+
+        for (int i = 0; i < numberOfJobs; i++)
+        {
+            if (job_queue[i].pid == p->pid)
+            {
+                if (job_queue[i].isFirstServed == YES)
+                {
+                    job_queue[i].isFirstServed = NO;
+                    job_queue[i].firstServedTime = currentTime;
+                    break;
+                }
+            }
+        }
+
         break;
     case FINISHED:
-        printf("process %d is finished\n", p.pid);
+        printf("process %d is finished\n", p->pid);
         processNumberInReadyQueue--; // 프로세스가 종료했으므로 1 감소시켜준다.
         numberOfFinishedProcess++;
         runningState = NO;
-        finishTimeSum += currentTime;
+        for (int i = 0; i < numberOfJobs; i++)
+        {
+            if (job_queue[i].pid == p->pid)
+            {
+                job_queue[i].finishTime = currentTime;
+                break;
+            }
+        }
         break;
     case CONTEXT_SWITCH:
         printf("--------------------------------- (Context-Switch)\n");
-        contextSwitchTimeSum += currentTime;
         numberOfContextSwitch++;
         currentTime += 1;
         break;
     case ALL_FINISHED:
         printf("all processes finish\n");
         finishedFlag = YES;
+        allFinishTime = currentTime;
+        break;
     default:
         break;
     }
 }
 
+// void jobCheck(PCB p)
+// {
+//     printf("============\n");
+//     printf("%d\n", p.arrival_time);
+//     printf("%d\n", p.burst_time);
+//     printf("%d\n", p.finishTime);
+//     printf("%d\n", p.firstServedTime);
+//     printf("%d\n", p.isFirstServed);
+//     printf("%f\n", p.responseTime);
+//     printf("%f\n", p.turnaroundTime);
+// }
+
 void calculateCriteria()
 {
     double averageCpuUsage;
-    double averageWaitingTime;
-    double averageResponseTime;
-    double averageTurnaroundTime;
-    int finalTime = currentTime; // 모든 실행을 마치고 난 뒤에 계산한다.
+    double averageWaitingTime = 0;
+    double averageResponseTime = 0;
+    double averageTurnaroundTime = 0;
 
-    averageCpuUsage = ((double)(finalTime - numberOfIdle - numberOfContextSwitch) / finalTime) * 100;
-    averageWaitingTime = (double)(contextSwitchTimeSum - arrivalTimeSum) / numberOfJobs;
-    averageResponseTime = (double)(contextSwitchTimeSum - arrivalTimeSum) / numberOfJobs;
-    averageTurnaroundTime = (double)(finishTimeSum - arrivalTimeSum) / numberOfJobs;
-    // TODO conSTsum 고치기
+    // 1. cpu usage
+    // allFinishedTime - (idle + switch 횟수) / allFinishedTime
+    averageCpuUsage = ((double)(allFinishTime - (numberOfIdle + numberOfContextSwitch)) / allFinishTime) * 100;
 
-    printf("Average cpu usage : %.2f %\n", averageCpuUsage);
-    printf("Avarage waiting time : %.1f\n", averageWaitingTime);
-    printf("Avarage response time : %.1f\n", averageResponseTime);
-    printf("Avarage turnaround time: %.1f\n", averageTurnaroundTime);
+    for (int i = 0; i < numberOfJobs; i++)
+    {
+        // 2. waiting time
+        // for each process, waitingTime = finishedTime - arrivedTime - burstTime
+        job_queue[i].waitingTime = (double)(job_queue[i].finishTime - job_queue[i].arrival_time - job_queue[i].burst_time);
+
+        // 3. response time
+        // firstServedTime - arrivedTime
+        job_queue[i].responseTime = (double)(job_queue[i].firstServedTime - job_queue[i].arrival_time);
+
+        // 4. turnaround time
+        // finishedTime - arrivedTime
+        job_queue[i].turnaroundTime = (double)(job_queue[i].finishTime - job_queue[i].arrival_time);
+
+        averageResponseTime += job_queue[i].responseTime;
+        averageTurnaroundTime += job_queue[i].turnaroundTime;
+        averageWaitingTime += job_queue[i].waitingTime;
+
+        // jobCheck(job_queue[i]);
+    }
+
+    averageResponseTime /= numberOfJobs;
+    averageTurnaroundTime /= numberOfJobs;
+    averageWaitingTime /= numberOfJobs;
+
+    printf("Average cpu usage : %.2f\n", averageCpuUsage);
+    printf("Average waiting time : %.1f\n", averageWaitingTime);
+    printf("Average response time : %.1f\n", averageResponseTime);
+    printf("Average turnaround time : %.1f\n", averageTurnaroundTime);
 }
+
 int noMoreArrival = NO;
 // 프로세스를 실행시키는 함수. 실행 과정에서 발생할 수 있는 일들에 대해 모두 표현해놓았다.
-void runProcess(PCB p)
+void runProcess(PCB *p)
 {
     if (processNumberInReadyQueue > 0)
     {
-        int burstTime = p.burst_time;
-        int maxArrivalCount = numberOfJobs - numberOfFinishedProcess;
-        while (noMoreArrival != YES || maxArrivalCount > 0) // 혹시 다른 프로세스가 도착했는지 확인한다.
+        int burstTime = p->burst_time;
+        while (noMoreArrival != YES) // 혹시 다른 프로세스가 도착했는지 확인한다.
         {
             checkIfProcessArrive();
-            maxArrivalCount--;
         }
 
         for (int i = 0; i < burstTime; i++)
@@ -154,7 +226,7 @@ void runProcess(PCB p)
         // 만약 모든 프로세스에 대해 작업이 끝났다면 즉시 종료한다.
         if (numberOfFinishedProcess == numberOfJobs)
         {
-            printTimeFlow(ALL_FINISHED, p);
+            printTimeFlow(ALL_FINISHED, NULL);
         }
 
         // 이때, 만약 readyQueue에 하나 이상의 프로세스가 대기 상태일 경우 context switch 와 함께 다음 프로세스를 실행시켜주면 된다. 만약 아닐 경우 idle 상태이다.
@@ -162,7 +234,8 @@ void runProcess(PCB p)
         {
             printTimeFlow(CONTEXT_SWITCH, p);
             runningState = YES;
-            runProcess(ready_queue[numberOfFinishedProcess]);
+            noMoreArrival = NO;
+            runProcess(&ready_queue[numberOfFinishedProcess]);
         }
     }
 }
@@ -177,21 +250,21 @@ void checkIfProcessArrive()
 
     PCB arriveProcess = job_queue[ready_idx]; // 미리 정렬해놓았기 때문에 맨 앞의 job_queue가 가장 먼저 도착한다고 예상할 수 있다.
 
-    if (arriveProcess.arrival_time == currentTime)
+    if (arriveProcess.arrival_time == currentTime && ready_idx < numberOfJobs)
     {
         ready_queue[ready_idx] = arriveProcess;
-        printTimeFlow(NEW_ARRIVAL, arriveProcess);
+        printTimeFlow(NEW_ARRIVAL, &ready_queue[ready_idx]);
         processNumberInReadyQueue++;
         ready_idx++;
         if (runningState == NO)
         {
             runningState = YES;
-            runProcess(ready_queue[numberOfFinishedProcess]);
+            runProcess(&ready_queue[numberOfFinishedProcess]);
         }
     }
     else if (runningState == NO)
     {
-        printTimeFlow(IDLE, arriveProcess);
+        printTimeFlow(IDLE, NULL);
     }
     else
     {
@@ -221,6 +294,7 @@ int main(int argc, char *argv[])
     FILE *openFile = fopen(argv[1], "r");
     // FILE *writeFile = fopen(argv[2], "w");
     int userData[MAX];
+    // {0, 1, 50, 0, 5, 2, 50, 0, 4, 3, 30, 0, 5, 5, 10, 0, 3}
     int userData_idx = 1;
 
     if (openFile == 0)
@@ -243,7 +317,7 @@ int main(int argc, char *argv[])
     }
 
     // 이제 userData 내부의값들을 PCB에 넣어주어야 한다.
-
+    // for (int i = 1; i <= 16; i++)
     int process_idx = 1;
     for (int i = 1; i <= userData_idx; i++)
     {
