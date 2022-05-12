@@ -3,7 +3,7 @@
 #include <string.h>
 
 #define MAX_PROCESS 15
-#define MAX 200
+#define MAX 20
 
 #define IDLE 0
 #define NEW_ARRIVAL 1
@@ -55,9 +55,9 @@ int currentTime = 0;               // 전역변수로 설정. 현재시간을 �
 int numberOfIdle = 0;              // cpu가 idle 된 횟수
 int numberOfContextSwitch = 0;     // contextSwitch 한 횟수
 int allFinishTime = 0;             // 모든 프로세스가 종료된 시간
-
-int noMoreArrival = NO; // 더 도착할 수 있는 프로세스가 있는지 여부
-PCB runningProcess;     // 현재 실행중인 프로세스
+int preemptFlag = NO;              // preempt 되었는지 여부를 표시한다.
+int noMoreArrival = NO;            // 더 도착할 수 있는 프로세스가 있는지 여부
+PCB runningProcess;                // 현재 실행중인 프로세스
 
 void runProcess(PCB *p);
 void checkIfProcessArrive();
@@ -113,14 +113,11 @@ void sortReadyQueueByAgingPriority()
     }
 }
 
-PCB preemptProcess;
-int preemptFlag = NO;
 // 현재 running process의 priority와 ready queue의 priority를 비교하여, preempt 상태인지 체크한다.
 void comparePriority()
 {
     if (ready_queue[FRONT].aging_priority > runningProcess.aging_priority)
     {
-        preemptProcess = ready_queue[FRONT];
         preemptFlag = YES;
         printf("preempted!\n");
     }
