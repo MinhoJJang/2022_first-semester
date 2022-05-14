@@ -96,30 +96,30 @@ void setReadyQueueProcessPriority()
     }
 }
 
-// 현재 ready_queue를 priority에 따라 재정렬하는 함수
+// 현재 ready_queue를 aging_priority에 따라 재정렬하는 함수
 void sortReadyQueueByAgingPriority()
 {
-    for (int i = 0; i < ready_idx - 1; i++)
+    for (int i = ready_idx - 1; i > 0; i--)
     {
-        for (int j = i + 1; j < ready_idx; j++)
+        for (int j = 0; j < i; j++)
         {
-            if (ready_queue[j - 1].aging_priority < ready_queue[j].aging_priority)
+            if (ready_queue[j].aging_priority < ready_queue[j + 1].aging_priority)
             {
-                PCB temp = ready_queue[j - 1];
-                ready_queue[j - 1] = ready_queue[j];
-                ready_queue[j] = temp;
+                PCB temp = ready_queue[j];
+                ready_queue[j] = ready_queue[j + 1];
+                ready_queue[j + 1] = temp;
             }
         }
     }
 }
 
-// 현재 running process의 priority와 ready queue의 priority를 비교하여, preempt 상태인지 체크한다.
+// 현재 running process의 aging_priority와 ready queue의 priority를 비교하여, preempt 가능한지 체크한다.
 void comparePriority()
 {
     if (ready_queue[FRONT].aging_priority > runningProcess.aging_priority)
     {
         preemptFlag = YES;
-        printf("preempted!\n");
+        // printf("preempted!\n");
     }
 }
 
@@ -136,6 +136,7 @@ void printTimeFlow(int state, PCB *p)
     case IDLE:
         printf("---- system is idle ----\n");
         numberOfIdle++;
+
         break;
     case NEW_ARRIVAL:
         printf("[new arrival] process %d\n", p->pid);
@@ -201,7 +202,7 @@ void printTimeFlow(int state, PCB *p)
         break;
     }
 }
-
+// readyQueue를 재정비 해주는 함수
 void restructReadyQueue()
 {
     for (int i = 0; i < ready_idx; i++)
@@ -225,23 +226,23 @@ void checkIfProcessArrive()
     PCB arriveProcess = job_queue[job_idx];
 
     // 현재 시간과, 도착할 수 있는 프로세스의 arrival time이 같다면 현재 실행시킬 수 있는 프로세스가 있다는 의미이다.
-    if (currentTime == arriveProcess.arrival_time && ready_idx + 1 < numberOfJobs)
+    if (currentTime == arriveProcess.arrival_time && ready_idx < numberOfJobs)
     {
 
         printTimeFlow(NEW_ARRIVAL, &arriveProcess);
-        ready_queue[ready_idx] = job_queue[job_idx];
-
+        ready_queue[ready_idx] = arriveProcess;
         job_idx++;
         ready_idx++;
+
         if (runningState == NO)
         {
             runningState = YES;
             // 현재 시간동안 동시에 들어오는 프로세스들을 체크한다.
-
             while (noMoreArrival != YES)
             {
                 checkIfProcessArrive();
             }
+
             sortReadyQueueByAgingPriority();
 
             runningProcess = ready_queue[FRONT];
@@ -257,7 +258,7 @@ void checkIfProcessArrive()
         noMoreArrival = YES;
     }
 }
-
+// 프로세스를 규칙에 맞게 run 시키는 함수
 void runProcess(PCB *p)
 {
     int runningProcessPid = p->pid;
@@ -306,9 +307,7 @@ void runProcess(PCB *p)
         runProcess(&runningProcess);
     }
 }
-
-// ready_queue에 누군가 기다리고 있었을 경우 그것을 context switch 해준다.
-
+// performance를 계산하기 위한 함수
 void calculateCriteria()
 {
     double averageCpuUsage;
@@ -350,7 +349,7 @@ void calculateCriteria()
     printf("Average response time : %.1f\n", averageResponseTime);
     printf("Average turnaround time : %.1f\n", averageTurnaroundTime);
 }
-
+// 스케줄링 진행하는 함수
 void priority_scheduling()
 {
     printf("Scheduling : Priority - Aging\n");
@@ -372,7 +371,7 @@ int main(int argc, char *argv[])
     FILE *openFile = fopen(argv[1], "r");
     // FILE *writeFile = fopen(argv[2], "w");
     int userData[MAX];
-    // {0, 1, 50, 10, 5, 2, 50, 0, 4, 3, 30, 20, 5, 5, 10, 7, 5}
+    // {0, 1, 10, 0, 5, 2, 12, 0, 4, 3, 20, 0, 5, 5, 17, 0, 5};
     int userData_idx = 1;
 
     // alpha = 0.2;
@@ -397,7 +396,7 @@ int main(int argc, char *argv[])
         fclose(openFile);
     }
 
-    // 이제 userData 내부의값들을 PCB에 넣어주어야 한다.
+    //이제 userData 내부의값들을 PCB에 넣어주어야 한다.
 
     int process_idx = 1;
     // for (int i = 1; i <= 16; i++)
@@ -411,6 +410,7 @@ int main(int argc, char *argv[])
             break;
         case 2:
             process[process_idx].priority = userData[i];
+            process[process_idx].aging_priority = userData[i];
             break;
         case 3:
             process[process_idx].arrival_time = userData[i];
@@ -428,4 +428,5 @@ int main(int argc, char *argv[])
 
     priority_scheduling();
     // priority scheduling는 매번 current time 증가시마다 현재 runningProcess와 ready_queue의 프로세스의 priority를 비교하는 과정이 필요하다.
+    return 0;
 }

@@ -150,17 +150,17 @@ void printTimeFlow(int state, PCB *p)
     }
 }
 
-void jobCheck(PCB p)
-{
-    printf("============\n");
-    printf("pid: %d\n", p.pid);
-    printf("arrive: %d\n", p.arrival_time);
-    printf("burst: %d\n", p.burst_time);
-    printf("finish: %d\n", p.finishTime);
-    printf("firstServed: %d\n", p.firstServedTime);
-    printf("responseTime: %f\n", p.responseTime);
-    printf("turnaroundTime: %f\n", p.turnaroundTime);
-}
+// void jobCheck(PCB p)
+// {
+//     printf("============\n");
+//     printf("pid: %d\n", p.pid);
+//     printf("arrive: %d\n", p.arrival_time);
+//     printf("burst: %d\n", p.burst_time);
+//     printf("finish: %d\n", p.finishTime);
+//     printf("firstServed: %d\n", p.firstServedTime);
+//     printf("responseTime: %f\n", p.responseTime);
+//     printf("turnaroundTime: %f\n", p.turnaroundTime);
+// }
 
 void calculateCriteria()
 {
@@ -191,7 +191,7 @@ void calculateCriteria()
         averageTurnaroundTime += job_queue[i].turnaroundTime;
         averageWaitingTime += job_queue[i].waitingTime;
 
-        jobCheck(job_queue[i]);
+        // jobCheck(job_queue[i]);
     }
 
     averageResponseTime /= numberOfJobs;
@@ -420,4 +420,5 @@ int main(int argc, char *argv[])
     response time = 프로세스가 ready queue에 들어와서, 처음으로 running 되기까지 걸린 시간
     turnaround time = 프로세스가 arrive 한 후 finish 하기까지 걸린 시간
 */
+    return 0;
 }

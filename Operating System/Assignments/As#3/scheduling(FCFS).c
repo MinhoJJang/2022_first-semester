@@ -41,13 +41,11 @@ int numberOfFinishedProcess = 0;   // 종료된 프로세스 개수
 int finishedFlag = NO;             // 모든 프로세스가 종료되었는지 여부
 int runningState = NO;             // 현재 running state에 있는 프로세스가 있는지 여부
 int currentTime = 0;               // 전역변수로 설정. 현재시간을 의미한다.
+int noMoreArrival = NO;            // 더이상 도착하는 프로세스가 없을 경우 YES로 바꿔준다.
 
 // 아래 변수들은 FCFS의 cpu usage, waiting time, response time, turnaround time 을 계산하기 위해 존재한다.
 int numberOfIdle = 0;          // cpu가 idle 된 횟수
-int arrivalTimeSum = 0;        // 프로세스가 도착한 시간의 합
-int contextSwitchTimeSum = 0;  // 프로세스가 context switch된 시간의 합
 int numberOfContextSwitch = 0; // contextSwitch 한 횟수
-int finishTimeSum = 0;         // 프로세스가 끝난 시간의 합
 int allFinishTime = 0;         // 모든 프로세스가 종료된 시간
 
 void checkIfProcessArrive();
@@ -149,6 +147,7 @@ void printTimeFlow(int state, PCB *p)
     }
 }
 
+// 데이터 검증용 함수
 // void jobCheck(PCB p)
 // {
 //     printf("============\n");
@@ -161,6 +160,7 @@ void printTimeFlow(int state, PCB *p)
 //     printf("%f\n", p.turnaroundTime);
 // }
 
+// performance를 계산하기 위한 함수
 void calculateCriteria()
 {
     double averageCpuUsage;
@@ -203,7 +203,6 @@ void calculateCriteria()
     printf("Average turnaround time : %.1f\n", averageTurnaroundTime);
 }
 
-int noMoreArrival = NO;
 // 프로세스를 실행시키는 함수. 실행 과정에서 발생할 수 있는 일들에 대해 모두 표현해놓았다.
 void runProcess(PCB *p)
 {
@@ -239,6 +238,7 @@ void runProcess(PCB *p)
         }
     }
 }
+
 // 프로세스가 도착했는지 체크하고, 도착했을 경우 ready_queue에 프로세스를 넣는 함수.
 void checkIfProcessArrive()
 {
@@ -292,9 +292,7 @@ int main(int argc, char *argv[])
 {
     // 먼저, 유저가 입력하는 값들을 정제하여 사용 할 수 있는 데이터로 가공하는 작업을 해준다.
     FILE *openFile = fopen(argv[1], "r");
-    // FILE *writeFile = fopen(argv[2], "w");
     int userData[MAX];
-    // {0, 1, 50, 0, 5, 2, 50, 0, 4, 3, 30, 0, 5, 5, 10, 0, 3}
     int userData_idx = 1;
 
     if (openFile == 0)
@@ -317,7 +315,6 @@ int main(int argc, char *argv[])
     }
 
     // 이제 userData 내부의값들을 PCB에 넣어주어야 한다.
-    // for (int i = 1; i <= 16; i++)
     int process_idx = 1;
     for (int i = 1; i <= userData_idx; i++)
     {
@@ -368,4 +365,5 @@ int main(int argc, char *argv[])
         response time = 프로세스가 ready queue에 들어와서, 처음으로 running 되기까지 걸린 시간
         turnaround time = 프로세스가 arrive 한 후 finish 하기까지 걸린 시간
     */
+    return 0;
 }
