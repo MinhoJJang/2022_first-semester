@@ -336,7 +336,7 @@ int main()
     found = 0;
     nearest(root, &testNode, 0, 2, &found, &best_dist);
 
-    printf(">> WP tree\nsearching for (%g, %g)\n"
+        printf(">> WP tree\nsearching for (%g, %g)\n"
            "found (%g, %g) dist %g\nseen %d nodes\n\n",
            testNode.x[0], testNode.x[1], found->x[0], found->x[1], sqrt(best_dist), visited);
 

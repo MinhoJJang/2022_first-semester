@@ -14,7 +14,8 @@
         "${file}",
         "-g",
         "-o",
-        "${fileDirname}/${fileBasenameNoExtension}"
+        "${fileDirname}/${fileBasenameNoExtension}",
+        "-lm"
       ],
       "group": "build",
       "problemMatcher": {
@@ -36,7 +37,8 @@
         "${file}",
         "-g",
         "-o",
-        "${fileDirname}/${fileBasenameNoExtension}"
+        "${fileDirname}/${fileBasenameNoExtension}",
+        "-lm"
       ],
       "group": "build",
       "problemMatcher": {
@@ -66,7 +68,8 @@
         "-g",
         "${file}",
         "-o",
-        "${fileDirname}\\${fileBasenameNoExtension}.exe"
+        "${fileDirname}\\${fileBasenameNoExtension}.exe",
+        "-lm"
       ],
       "options": {
         "cwd": "C:/mingw64/bin"
