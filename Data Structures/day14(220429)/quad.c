@@ -273,6 +273,7 @@ void searchPoint(Tree *tree, Point *point)
     }
 }
 
+// 중복데이터방지
 void CheckSameData(Point *point, int *idx, int *reset)
 {
     int num = *idx;
