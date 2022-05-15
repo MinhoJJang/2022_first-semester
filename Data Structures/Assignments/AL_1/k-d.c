@@ -410,7 +410,7 @@ int nearest_neighbor_search(struct kd_node_t* root, struct kd_node_t* nd, int i,
 
 kd_node_t* searchSmallestDistancePoint(kd_node_t data[], kd_node_t point, int size) {
 
-	kd_node_t *smallest_node = (kd_node_t*)malloc(sizeof(kd_node_t)*10);
+	kd_node_t *smallest_node = (kd_node_t*)malloc(sizeof(kd_node_t)*size);
 
 	int x = point.x[0];
 	int y = point.x[1];
