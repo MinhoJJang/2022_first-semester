@@ -67,7 +67,6 @@ Map *init_map(int x1, int y1, int x2, int y2)
 
 void tree_init(Tree *tree)
 {
-
     tree->map = init_map(0, 0, MAP_SIZE, MAP_SIZE);
     tree->bottom_left = NULL;
     tree->bottom_right = NULL;
