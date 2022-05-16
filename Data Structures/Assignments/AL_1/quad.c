@@ -3,6 +3,7 @@
 #include <malloc.h>
 #include <stdio.h>
 #include <stdlib.h>
+
 /*
     quad tree 만들기
 
@@ -295,7 +296,7 @@ int main()
 
     int NumberOfPoint;
     printf("Total Number Of Point : ");
-    scanf_s("%d", &NumberOfPoint);
+    scanf("%d", &NumberOfPoint);
     Point *input_data = (Point *)malloc(sizeof(Point) * NumberOfPoint); //동적할당
 
     srand(time(NULL));
@@ -324,7 +325,7 @@ int main()
     int input_x;
     int input_y;
     printf("Which point do you want to search? : ");
-    scanf_s("%d%d", &input_x, &input_y);
+    scanf("%d%d", &input_x, &input_y);
     printf("Search Point : (%d, %d)\n", input_x, input_y);
     Point *newPoint = (Point *)malloc(sizeof(Point));
     newPoint = init_point(input_x, input_y);
