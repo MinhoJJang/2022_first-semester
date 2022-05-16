@@ -329,5 +329,7 @@ int main()
     newPoint = init_point(input_x, input_y);
     searchPoint(&tree, newPoint);
 
+    printf("===========Range Search Test=============\n");
+
     return 0;
 }
