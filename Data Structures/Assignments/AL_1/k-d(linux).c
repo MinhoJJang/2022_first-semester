@@ -514,7 +514,8 @@ int main()
     kd_node_t *nodes = (kd_node_t *)malloc(sizeof(kd_node_t) * size);
     nodes = searchSmallestDistancePoint(wp, testNode, size);
 
-    // Linux 전용. _msize는 windows 에서, malloc_usable_size 는 linux에서 작동한다.
+    // Linux 전용. _msize는 windows 에서, malloc_usable_size 는 linux에서 작동한다.\
+    // int numberOfNode = _msize(nodes) / sizeof(kd_node_t);
     int numberOfNode = malloc_usable_size(nodes) / sizeof(kd_node_t);
 
     for (int i = 0; i < numberOfNode; i++)

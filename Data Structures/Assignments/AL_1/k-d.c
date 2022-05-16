@@ -6,18 +6,20 @@
 #include <stdbool.h>
 #include <malloc.h>
 
-#define MAX_DIM 3 // 최대 차원 수. 현실적으로 3차원까지만 표현할 수 있다.
+#define MAX_DIM 3
+// 최대 차원 수. 현실적으로 3차원까지만 표현할 수 있다.
+
 typedef struct kd_node_t
 {
 	double x[MAX_DIM]; // x는 좌표값. x[0] = x, x[1] = y, x[2] = z 이다. 만약 2차원이라면 x[2] = 0 으로 고정값일 것이다.
-	struct kd_node_t* left;
-	struct kd_node_t* right;
+	struct kd_node_t *left;
+	struct kd_node_t *right;
 
 	// 점을 기준으로 선을 그어 나눌 때 나눠지는 두 영역에서 선택한 각각의 중앙값을 의미한다.
 } kd_node_t;
 
 // 점과 점 사이 거리를 계산하는 함수
-double dist(struct kd_node_t* a, struct kd_node_t* b, int dim)
+double dist(struct kd_node_t *a, struct kd_node_t *b, int dim)
 {
 	double t, d = 0;
 	while (dim--)
@@ -30,7 +32,7 @@ double dist(struct kd_node_t* a, struct kd_node_t* b, int dim)
 }
 
 // x와 y를 서로 스왑하는 함수이다.
-void swap(struct kd_node_t* x, struct kd_node_t* y)
+void swap(struct kd_node_t *x, struct kd_node_t *y)
 {
 	double tmp[MAX_DIM];
 	memcpy(tmp, x->x, sizeof(tmp));
@@ -41,7 +43,7 @@ void swap(struct kd_node_t* x, struct kd_node_t* y)
 /* see quickselect method */
 // start 점부터 end 점 중에서 중앙값을 찾아 중앙에 위치한 점의 정보를 리턴하는 함수이다. 그래서 타입이 struct kd_node_t 타입이다.
 // 여기서 idx는 어떤 축을 기준으로 start와 end를 나눌 것인지 알려주는, 정수값이다.
-struct kd_node_t* find_median(struct kd_node_t* start, struct kd_node_t* end, int idx)
+struct kd_node_t *find_median(struct kd_node_t *start, struct kd_node_t *end, int idx)
 {
 	if (end <= start)
 	{
@@ -53,8 +55,8 @@ struct kd_node_t* find_median(struct kd_node_t* start, struct kd_node_t* end, in
 		// 점이 start, end 두개일 경우 smaller median을 선택한다.
 	}
 
-	struct kd_node_t* p, *store;
-	struct kd_node_t* md = start + (end - start) / 2; // start와 end 중앙에 위치한 점이다.
+	struct kd_node_t *p, *store;
+	struct kd_node_t *md = start + (end - start) / 2; // start와 end 중앙에 위치한 점이다.
 	double pivot;
 
 	while (1)
@@ -85,9 +87,9 @@ struct kd_node_t* find_median(struct kd_node_t* start, struct kd_node_t* end, in
 }
 
 // 여기서 *t 는 시작점, len은 총 점의 개수, i는 어떤 축을 기준으로 하는지, dim은 몇 차원의 점을 가지고 tree를 만드는지.
-struct kd_node_t* make_tree(struct kd_node_t* t, int len, int i, int dim)
+struct kd_node_t *make_tree(struct kd_node_t *t, int len, int i, int dim)
 {
-	struct kd_node_t* n;
+	struct kd_node_t *n;
 
 	if (!len)
 		return 0;
@@ -107,14 +109,14 @@ struct kd_node_t* make_tree(struct kd_node_t* t, int len, int i, int dim)
 /* global variable, so sue me */
 int visited;
 
-void nearest(struct kd_node_t* root, struct kd_node_t* nd, int i, int dim, struct kd_node_t** best, double* best_dist)
+void nearest(struct kd_node_t *root, struct kd_node_t *nd, int i, int dim, struct kd_node_t **best, double *best_dist)
 {
-	//nearsest
+	// nearsest
 	double d, dx, dx2;
 
 	if (!root)
 		return;
-	d = dist(root, nd, dim);    //
+	d = dist(root, nd, dim);	//
 	dx = root->x[i] - nd->x[i]; // 단순 거리. i에 따라 어떤 축의 길이인지..
 	dx2 = dx * dx;
 
@@ -161,7 +163,7 @@ typedef struct _point
 	int y;
 } Point;
 
-void squareInit(Square* sq, int x, int y, int width, int height)
+void squareInit(Square *sq, int x, int y, int width, int height)
 {
 	sq->x = x;
 	sq->y = y;
@@ -177,7 +179,7 @@ Point pt[MAX]; // 사각형 내부의 점의 좌표
 
 // 주어진 사각형 내부에 점이 있는지 판독하는 함수.
 // i는 무슨 축을 기준으로 나누는지 대한 정보이다. i라고 쓴 이유는 단순히 주어진 코드에서 i를 이미 해당 정보를 표시하는 데 사용했기 때문에 통일성을 위해 사용했다.
-int rangeSearch(Square* sq, struct kd_node_t* root, int i, int dim)
+int rangeSearch(Square *sq, struct kd_node_t *root, int i, int dim)
 {
 	/* 모든 주어진 사각형에 대하여 2가지 경우가 존재한다.
 		1. 해당 Square가, 해당 점이 나누는 구역 중 하나에 완전하게 들어갈 때.
@@ -312,7 +314,7 @@ int rangeSearch(Square* sq, struct kd_node_t* root, int i, int dim)
 
 	return idx;
 }
-bool pointSame(struct kd_node_t* root, int point[])
+bool pointSame(struct kd_node_t *root, int point[])
 {
 	// 두 포인트가 같은지 비교
 	for (int i = 0; i < 2; ++i)
@@ -321,8 +323,9 @@ bool pointSame(struct kd_node_t* root, int point[])
 
 	return true;
 }
-bool search(struct kd_node_t* root, int point[], unsigned depth) {
-	//depth <-현재 axis를 나타냄
+bool search(struct kd_node_t *root, int point[], unsigned depth)
+{
+	// depth <-현재 axis를 나타냄
 	if (root == NULL)
 		return false;
 	if (pointSame(root, point))
@@ -338,7 +341,7 @@ bool search(struct kd_node_t* root, int point[], unsigned depth) {
 
 	return search(root->right, point, depth + 1);
 }
-void point_search_function(struct kd_node_t* root, int point[])
+void point_search_function(struct kd_node_t *root, int point[])
 {
 	// Pass current depth as 0
 	if (search(root, point, 0))
@@ -346,32 +349,35 @@ void point_search_function(struct kd_node_t* root, int point[])
 	else
 		printf("(%d,%d) Not Found\n", point[0], point[1]);
 }
-int nearest_neighbor_search(struct kd_node_t* root, struct kd_node_t* nd, int i, int dim, struct kd_node_t** best, double* best_dist, struct kd_node_t minNode[])
+int nearest_neighbor_search(struct kd_node_t *root, struct kd_node_t *nd, int i, int dim, struct kd_node_t **best, double *best_dist, struct kd_node_t minNode[])
 {
-	//nearsest
-	//given a point, find one or more nearest neighbor points
-	struct kd_node_t* temp = root;
+	// nearsest
+	// given a point, find one or more nearest neighbor points
+	struct kd_node_t *temp = root;
 	double d, dx, dx2;
 	int min = 10000000;
 
-
 	if (!root)
 		return 0;
-	d = dist(temp, nd, dim);    // point와 temp와의 거리
+	d = dist(temp, nd, dim);	// point와 temp와의 거리
 	dx = temp->x[i] - nd->x[i]; // 단순 거리. i에 따라 어떤 축의 길이인지..
 	dx2 = dx * dx;
 	int k = 0;
 
-	while (1) {
+	while (1)
+	{
 		if (temp == NULL)
 			return min;
 		double distance = dist(temp, nd, dim);
 
-		if (distance < min) {
+		if (distance < min)
+		{
 			min = distance;
 
-			if (k > 0) {
-				for (int i = 0; i <= k; i++) {
+			if (k > 0)
+			{
+				for (int i = 0; i <= k; i++)
+				{
 					minNode[i].x[0] = 0;
 					minNode[i].x[1] = 0;
 				}
@@ -380,14 +386,15 @@ int nearest_neighbor_search(struct kd_node_t* root, struct kd_node_t* nd, int i,
 			minNode[k].x[0] = temp->x[0];
 			minNode[k].x[1] = temp->x[1];
 		}
-		else if (distance == min) {
+		else if (distance == min)
+		{
 			k++;
 			minNode[k].x[0] = temp->x[0];
 			minNode[k].x[1] = temp->x[1];
 		}
 
 		//다음 위치를 찾아낸다
-		if (i == 0)// x축 비교
+		if (i == 0) // x축 비교
 		{
 			if (temp->x[0] > nd->x[0])
 				temp = temp->left;
@@ -404,25 +411,28 @@ int nearest_neighbor_search(struct kd_node_t* root, struct kd_node_t* nd, int i,
 		// 다음 비교를 위해 axis (i) 증가
 		i = (i + 1) % 2;
 	}
-
-
 }
 
-kd_node_t* searchSmallestDistancePoint(kd_node_t data[], kd_node_t point, int size) {
+kd_node_t *searchSmallestDistancePoint(kd_node_t data[], kd_node_t point, int size)
+{
 
-	kd_node_t *smallest_node = (kd_node_t*)malloc(sizeof(kd_node_t)*size);
+	kd_node_t *smallest_node = (kd_node_t *)malloc(sizeof(kd_node_t) * size);
 
 	int x = point.x[0];
 	int y = point.x[1];
 	double smallest_dist = 1000000;
 	int idx = 0;
 
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < size; i++)
+	{
 		double current_dist = dist(&data[i], &point, 2);
-		if (smallest_dist > current_dist){
+		if (smallest_dist > current_dist)
+		{
 			smallest_dist = current_dist;
-			if (idx > 0) {
-				for (int j = 0; j < idx; j++) {
+			if (idx > 0)
+			{
+				for (int j = 0; j < idx; j++)
+				{
 					smallest_node[idx].x[0] = 0;
 					smallest_node[idx].x[1] = 0;
 				}
@@ -432,40 +442,41 @@ kd_node_t* searchSmallestDistancePoint(kd_node_t data[], kd_node_t point, int si
 			smallest_node[idx].x[1] = data[i].x[1];
 			idx++;
 		}
-		else if (smallest_dist == current_dist) {
+		else if (smallest_dist == current_dist)
+		{
 			smallest_node[idx].x[0] = data[i].x[0];
 			smallest_node[idx].x[1] = data[i].x[1];
 			idx++;
 		}
 	}
 
-	kd_node_t *return_node = (kd_node_t*)malloc(sizeof(kd_node_t) * idx);
-	for (int i = 0; i < idx; i++) {
+	kd_node_t *return_node = (kd_node_t *)malloc(sizeof(kd_node_t) * idx);
+	for (int i = 0; i < idx; i++)
+	{
 		return_node[i].x[0] = smallest_node[i].x[0];
 		return_node[i].x[1] = smallest_node[i].x[1];
 	}
-	
+
 	return return_node;
 }
 
-
 int main()
 {
-	struct kd_node_t wp[] = { {{2, 3}}, {{3, 4}}, {{5, 4}}, {{9, 6}}, {{4, 7}}, {{8, 1}}, {{7, 2}} };
-	struct kd_node_t* root, *found;
+	struct kd_node_t wp[] = {{{2, 3}}, {{3, 4}}, {{5, 4}}, {{9, 6}}, {{4, 7}}, {{8, 1}}, {{7, 2}}};
+	struct kd_node_t *root, *found;
 	double best_dist;
 
-	// 이미, 주어진 코드의 함수를 통해 해당 노드를 찾고 해당 노드에서 가장 가까운 점까지 나온다. 
+	// 이미, 주어진 코드의 함수를 통해 해당 노드를 찾고 해당 노드에서 가장 가까운 점까지 나온다.
 	// 여기서 우리는 nearest 를 보강하여, 해당 점 외에도 가장 가까운 점이 또 있는지 찾아내는 것만 더해주면 될 것이다.
 	root = make_tree(wp, sizeof(wp) / sizeof(wp[1]), 0, 2);
 
-	//printf("%g, %g, %d", wp[0].x[0], wp[0].x[1], sizeof(wp) / sizeof(wp[1]));
-	//1번 문제
-	int point[] = { 5,4 };
+	// printf("%g, %g, %d", wp[0].x[0], wp[0].x[1], sizeof(wp) / sizeof(wp[1]));
+	// 1번 문제
+	int point[] = {5, 4};
 	point_search_function(root, point);
-	int point1[] = { 4,7 };
+	int point1[] = {4, 7};
 	point_search_function(root, point1);
-	int point2[] = { 10,5 };
+	int point2[] = {10, 5};
 	point_search_function(root, point2);
 
 	// 2번문제
@@ -480,18 +491,18 @@ int main()
 	}
 
 	// 3번문제
-	//input(5,4)
+	// input(5,4)
 	kd_node_t minNode[10];
-	kd_node_t testNode = { {4, 7} };
+	kd_node_t testNode = {{4, 7}};
 
 	int k = 0;
 	nearest_neighbor_search(root, &testNode, 0, 2, &found, &best_dist, minNode);
 
 	printf("searching for (%g, %g), found nearest node(%g, %g) \n\n",
-		testNode.x[0], testNode.x[1], minNode[k].x[0], minNode[k].x[1]);
+		   testNode.x[0], testNode.x[1], minNode[k].x[0], minNode[k].x[1]);
 
-	//neigbor search값이 여러개인 경우
-	// 결과값 print 어떻게 할지
+	// neigbor search값이 여러개인 경우
+	//  결과값 print 어떻게 할지
 
 	testNode.x[0] = 3;
 	testNode.x[1] = 3;
@@ -499,14 +510,15 @@ int main()
 	nearest_neighbor_search(root, &testNode, 0, 2, &found, &best_dist, minNode);
 
 	printf("searching for (%g, %g), found nearest node (%g, %g) \n\n",
-		testNode.x[0], testNode.x[1], minNode->x[0], minNode->x[1]);
+		   testNode.x[0], testNode.x[1], minNode->x[0], minNode->x[1]);
 
 	int size = sizeof(wp) / sizeof(wp[1]);
-	kd_node_t *nodes = (kd_node_t*)malloc(sizeof(kd_node_t) * size);
+	kd_node_t *nodes = (kd_node_t *)malloc(sizeof(kd_node_t) * size);
 	nodes = searchSmallestDistancePoint(wp, testNode, size);
 	int numberOfNode = _msize(nodes) / sizeof(kd_node_t);
 
-	for (int i = 0; i < numberOfNode; i++) {
+	for (int i = 0; i < numberOfNode; i++)
+	{
 		printf("(%.1f, %.1f)\n", nodes[i].x[0], nodes[i].x[1]);
 	}
 
