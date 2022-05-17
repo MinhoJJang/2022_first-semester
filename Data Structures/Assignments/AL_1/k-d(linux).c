@@ -312,6 +312,7 @@ int rangeSearch(Square *sq, struct kd_node_t *root, int i, int dim)
 
     return idx;
 }
+
 bool pointSame(struct kd_node_t *root, int point[])
 {
     // 두 포인트가 같은지 비교
