@@ -5,13 +5,15 @@
     <script>
       function multiplicationTable(n) {
         // converting string n to number
-        /* CODE HERE */
+        var num = parseInt(n);
 
         if (isNaN(num) || n < 1 || n > 9) {
           alert("You entered incorrectly.");
         } else {
           // show the multiplication table of num
-          /* CODE HERE */
+          for (var i = 1; i < 10; i++) {
+            document.write(num + " X " + i + " = " + num * i + "<br>");
+          }
         }
       }
     </script>
