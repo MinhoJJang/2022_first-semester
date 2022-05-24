@@ -1,5 +1,6 @@
 package as2;
 
+
 public class Hw2_5 {
 
 	final static int ORANGE = 0;

@@ -88,14 +88,6 @@
       "name": "Launch Hw2_1",
       "request": "launch",
       "mainClass": "as2.Hw2_1",
-      "projectName": "Assignment2",
-      "args": [".class"]
-    },
-    {
-      "type": "java",
-      "name": "Launch Hw2_8",
-      "request": "launch",
-      "mainClass": "as2.Hw2_8",
       "projectName": "Assignment2"
     }
   ]
