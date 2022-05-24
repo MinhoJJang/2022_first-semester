@@ -1,7 +1,6 @@
 package as2;
 
 import java.util.Scanner;
-
 public class Hw2_1 {
 	public static void main(String[] args) {
 
