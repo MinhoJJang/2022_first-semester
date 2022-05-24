@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<script type="text/javascript">
+	const day = Number(window.prompt("요일을 입력해 주세요. 1 = Sunday, 2 = Monday ... ", ""));
+	
+	switch(day){
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		document.write("We are open.");
+		break;
+		case 1:
+		case 7:
+			document.write("We are closed");
+		break;
+		default:
+			document.write("Invalid day.");
+		break;
+		
+	}
+	
+	
+	</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<script type="text/javascript">
+		var month = Number(window.prompt("Enter the month"));
+		
+		if(month == 1 || month == 3 || month == 5 || month == 7 ||month == 8 ||month == 10 ||month == 12){
+			document.write("31 days");
+		}
+		else if(month == 4 ||month == 6 ||month == 9 ||month == 11){
+			document.write("30 days");
+		}else if(month == 2){
+			document.write("28 or 29 days");
+		}
+		else {
+			document.write("Invalid Month");
+		}
+	</script>
+</body>
+</html>

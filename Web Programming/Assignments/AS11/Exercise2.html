@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script type="text/javascript">
+	function add(num1, num2){
+		return num1+num2;
+	}
+	
+	function sub(num1, num2){
+		return parseInt(num1) - parseInt(num2);
+	}
+</script>
+
+</head>
+<body>
+
+<script type="text/javascript">
+	var num1 = window.prompt("Enter the first number");
+	var num2 = window.prompt("Enter the second number");
+	
+	document.write(num1 + " + " + num2 + " = " + add(num1,num2) + "<br/>");
+	
+	document.write(num1 + " - " + num2 + " = " + sub(num1,num2));
+</script>
+
+</body>
+</html>

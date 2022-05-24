@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script type="text/javascript">
+	function printFizzBuzz(n){
+		
+		if(n%3==0){
+			document.write("Fizz");
+		}
+		if(n%5==0){
+			document.write("Buzz");
+		}
+		if(n%3 != 0 && n%5 != 0){
+			document.write(n);
+		}
+		document.write("<br/>");
+				
+	}
+</script>
+
+</head>
+<body>
+
+<h2>FizzBuzz</h2>
+<script type="text/javascript">
+	for(var i=1; i<=45; i++){
+		printFizzBuzz(i);
+	}
+</script>
+
+</body>
+</html>

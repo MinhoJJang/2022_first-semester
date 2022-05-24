@@ -7,6 +7,7 @@ public class Hw2_8 {
 
 	public static double[][] findFigure(double[][] picture, double threshold) {
 
+	
 		double[][] newPicture = new double[row][column];
 		double avg = 0;
 		for (int i = 0; i < row; i++) {
