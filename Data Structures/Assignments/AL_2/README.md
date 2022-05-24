@@ -11,6 +11,6 @@ work_1 HeapSort
 ```
 
 ```
-work_2 Else
+work_2 else...
 QuickSort와 Insertion, Selection, Bubble은 주석보고 수정하면 사용가능
 ```
