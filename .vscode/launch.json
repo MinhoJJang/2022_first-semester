@@ -85,6 +85,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch Hw2_8",
+      "request": "launch",
+      "mainClass": "as2.Hw2_8",
+      "projectName": "Assignment2"
+    },
+    {
+      "type": "java",
+      "name": "Launch Hw2_5",
+      "request": "launch",
+      "mainClass": "as2.Hw2_5",
+      "projectName": "Assignment2"
+    },
+    {
+      "type": "java",
       "name": "Launch Hw2_1",
       "request": "launch",
       "mainClass": "as2.Hw2_1",
