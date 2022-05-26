@@ -10,7 +10,7 @@
 #define ROOTIDX 1
 #define SUCCESS 1
 #define FAIL 0
-#define DATA_SIZE 50
+#define DATA_SIZE 500
 /* Heap의 데이터*/
 
 typedef int HData;
