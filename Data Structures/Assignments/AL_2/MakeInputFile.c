@@ -46,7 +46,7 @@ void genIncSorted(dataType arr[], int n)
 
         // arr[i] = (DATA_SIZE / 2 - i) / 2.125; // 내림차순
 
-        arr[i] = (i - (DATA_SIZE / 2)) / 2.125; // 오름차순
+        arr[i] = (i - (DATA_SIZE / 2)) / (DATA_SIZE / 2000 - 0.001); // 오름차순
     }
 }
 
@@ -54,7 +54,7 @@ void genIncSorted(dataType arr[], int n)
 void genRandom(dataType arr[], int n)
 {
     genIncSorted(arr, n);
-    shuffleArr(arr, n);
+    // shuffleArr(arr, n);
 }
 
 int main()
