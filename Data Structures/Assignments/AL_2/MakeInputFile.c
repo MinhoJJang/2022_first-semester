@@ -3,7 +3,7 @@
 
 #define FNAME "unSorted.dat"
 typedef double dataType;
-#define DATA_SIZE 50
+#define DATA_SIZE 50000
 
 // 배열섞기
 void shuffleArr(dataType arr[], int n)
@@ -31,6 +31,7 @@ double randomDouble()
 }
 
 // 오름차순 배열
+// double타입의 경우 그냥 삽입부터 랜덤임
 void genIncSorted(dataType arr[], int n)
 {
     srand(time(NULL));
@@ -40,7 +41,12 @@ void genIncSorted(dataType arr[], int n)
         // arr[i] = i - DATA_SIZE / 2;
 
         // 2. 배열이 double 타입일 경우
-        arr[i] = randomDouble();
+
+        // arr[i] = randomDouble();
+
+        // arr[i] = (DATA_SIZE / 2 - i) / 2.125; // 내림차순
+
+        arr[i] = (i - (DATA_SIZE / 2)) / 2.125; // 오름차순
     }
 }
 

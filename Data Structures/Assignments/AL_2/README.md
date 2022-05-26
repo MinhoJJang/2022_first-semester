@@ -10,11 +10,6 @@ work_1 HeapSort
   DATA_SIZE를 조정하여 데이터 개수 변경가능
 ```
 
-```
-work_2 else...
-QuickSort와 Insertion, Selection, Bubble은 주석보고 수정하면 사용가능
-```
-
 ## 0526
 
 ```
@@ -24,3 +19,53 @@ QuickSort 완성
 
 > 주의해야할 사항은, MakeInputFile.c와 정렬함수의 `#define DATA_SIZE` 값을 동일하게 맞춰주어야 하고, `typedef (datatype) dataType` 의 경우에도 int와 double을 동시에 변경해주어야 하고 변경할 때 기타 print함수의 출력형식을 반드시 변경해 주어야 한다.
 ```
+
+### Running Time
+
+MakeInputFile.c 내부 함수를 살짝 변경하면, 세가지 형태의 배열을 만들 수 있다.내림차순, 오름차순, 랜덤.
+
+이때, QuickSort의 경우 랜덤 배열인 상황에서는 HeapSort보다 더 나은 성능을 보여주지만, 내림차순 혹은 오름차순일 경우 최악의 성능을 보여준다.
+
+1. 내림차순 배열일 경우
+
+QuickSort가 200배 이상 느리다
+
+```
+QuickSort
+Random Based Array - QuickSort (size: 50000) Running Time: 2531880 ms
+Sorted Well! :)
+
+HeapSort
+Random Based Array - HeapSort (size: 50000) Running time: 10488 ms
+Sorted Well! :)
+```
+
+2. 오름차순 배열일 경우
+
+QuickSort가 300배 이상 느리다
+
+```
+QuickSort
+Random Based Array - QuickSort (size: 50000) Running Time: 2426996 ms
+Sorted Well! :)
+
+HeapSort
+Random Based Array - HeapSort (size: 50000) Running time: 7455 ms
+Sorted Well! :)
+```
+
+3. 랜덤 배열일 경우
+
+QuickSort가 약간 빠르다.
+
+```
+QuickSort
+Random Based Array - QuickSort (size: 50000) Running Time: 6067 ms
+Sorted Well! :)
+
+HeapSort
+Random Based Array - HeapSort (size: 50000) Running time: 11937 ms
+Sorted Well! :)
+```
+
+이는 QuickSort의 방식이 분할정복 방식이기 때문인데, 한쪽으로 정렬될 경우 분할이 되지 않으니 10번 하면 되는 것을 1000번 해야 한다. 그러나 HeapSort의 경우 모든 경우에도 평균적인 속도를 보여준다.
