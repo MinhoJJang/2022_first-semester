@@ -76,4 +76,4 @@ Sorted Well! :)
 
 ## 0527
 
-common.h 파일로 관리
+common.h 파일로 전체 정렬함수 관리
