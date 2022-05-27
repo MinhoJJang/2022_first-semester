@@ -17,16 +17,23 @@ void shuffleArr(dataType arr[], int n)
     }
 }
 
-// dataType가 Double인 경우만 사용
-double randomDouble()
+dataType randomData()
 {
-    double a = (((double)rand() / RAND_MAX) * 2 - 1) * 1000;
-    return a;
+    dataType data;
+    if (checkDataType() == INT)
+    {
+        data = rand() - RAND_MAX / 2;
+    }
+    else if (checkDataType() == DOUBLE)
+    {
+        data = (((dataType)rand() / RAND_MAX) * 2 - 1) * 1000;
+    }
+
+    return data;
 }
 
-// 오름차순 배열
 // double타입의 경우 그냥 삽입부터 랜덤임
-void genIncSorted(dataType arr[], int n)
+void dataInput(dataType arr[], int n)
 {
     srand(time(NULL));
     for (int i = 0; i < n; i++)
@@ -35,7 +42,7 @@ void genIncSorted(dataType arr[], int n)
         // arr[i] = i - DATA_SIZE / 2;
 
         // 2. 배열이 double 타입일 경우
-        arr[i] = randomDouble();
+        arr[i] = randomData();
 
         // arr[i] = (DATA_SIZE / 2 - i) / 2.125; // 내림차순
 
@@ -46,7 +53,7 @@ void genIncSorted(dataType arr[], int n)
 // 무작위 배열 1~n 범위
 void genRandom(dataType arr[], int n)
 {
-    genIncSorted(arr, n);
+    dataInput(arr, n);
     shuffleArr(arr, n);
 }
 
@@ -68,8 +75,14 @@ int main()
 
     for (int i = 0; i < DATA_SIZE; i++)
     {
-        // fprintf(fp, "%d ", workArr[i]);
-        fprintf(fp, "%.3f ", workArr[i]);
+        if (checkDataType() == INT)
+        {
+            fprintf(fp, "%d ", workArr[i]);
+        }
+        else if (checkDataType() == DOUBLE)
+        {
+            fprintf(fp, "%.3f ", workArr[i]);
+        }
     }
 
     fclose(fp);

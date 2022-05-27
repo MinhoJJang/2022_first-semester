@@ -9,7 +9,6 @@ void BubbleSort(dataType arr[], int n) // 버블 정렬
     // cycle 회전 횟수
     for (i = 0; i < n - 1; i++)
     {
-
         // 비교횟수
         for (j = 0; j < (n - i) - 1; j++)
         {

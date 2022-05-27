@@ -5,21 +5,55 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define type(x) _Generic((x), int        \
+                         : "int", double \
+                         : "double")
+#define INT 0
+#define DOUBLE 1
+#define SAME 0
 #define UnSortedFileName "unSorted.dat"
-#define SortingFileName "Sorted.dat"
+#define SortedFileName "Sorted.dat"
 #define DATA_SIZE 5000
+#define NUMBER_OF_DATA 100
+
+// 여기만 int, double로 변경
 typedef double dataType;
+
 typedef void fnSort(dataType arr[], int n);
 dataType workArr[DATA_SIZE];
+
+dataType typeCheck;
+
+int checkDataType()
+{
+    if (strcmp(type(typeCheck), "int") == SAME)
+    {
+        return INT;
+    }
+    else if (strcmp(type(typeCheck), "double") == SAME)
+    {
+        return DOUBLE;
+    }
+}
 
 // Time Check Function
 void chkTimeLap(fnSort sort, dataType arr[], int n, char *sortTitle)
 {
-    clock_t start, end;
-    start = clock();
-    sort(arr, n);
-    end = clock();
-    printf("%s (size: %d) Running Time: %ld ms\n", sortTitle, n, end - start);
+    long avg_time = 0;
+    dataType base[DATA_SIZE];
+    memcpy(base, arr, sizeof(dataType) * DATA_SIZE);
+    for (int i = 0; i < NUMBER_OF_DATA; i++)
+    {
+        memcpy(arr, base, sizeof(dataType) * DATA_SIZE);
+        clock_t start, end;
+        start = clock();
+        sort(arr, n);
+        end = clock();
+        avg_time += (end - start);
+        printf("(size: %d) Running Time: %ld ms\n", n, end - start);
+    }
+    avg_time /= NUMBER_OF_DATA;
+    printf("%s (size: %d) %d data - Average Time: %ld ms\n", sortTitle, n, NUMBER_OF_DATA, avg_time);
 }
 
 void printArr(dataType arr[], int n)
@@ -27,11 +61,14 @@ void printArr(dataType arr[], int n)
     printf("[ ");
     for (int i = 0; i < n; i++)
     {
-        // 1. if dataType is int
-        // printf("%d ", arr[i]);
-
-        // 2. if dataType is double
-        printf("%.3f ", arr[i]);
+        if (checkDataType() == INT)
+        {
+            printf("%d ", arr[i]);
+        }
+        else if (checkDataType() == DOUBLE)
+        {
+            printf("%.3f ", arr[i]);
+        }
     }
     printf("]\n");
 }
@@ -62,8 +99,15 @@ void fileOpen()
         dataType data;
         while (!feof(openFile))
         {
-            fscanf(openFile, "%lf\n", &data);
-            // fscanf(openFile, "%d\n", &data);
+
+            if (checkDataType() == INT)
+            {
+                fscanf(openFile, "%d\n", &data);
+            }
+            else if (checkDataType() == DOUBLE)
+            {
+                fscanf(openFile, "%lf\n", &data);
+            }
             workArr[idx++] = data;
         }
 
@@ -73,7 +117,7 @@ void fileOpen()
 
 void fileClose()
 {
-    FILE *fp = fopen(SortingFileName, "w");
+    FILE *fp = fopen(SortedFileName, "w");
 
     if (!fp)
     {
@@ -83,8 +127,14 @@ void fileClose()
 
     for (int i = 0; i < DATA_SIZE; i++)
     {
-        // fprintf(fp, "%d ", workArr[i]);
-        fprintf(fp, "%.3f ", workArr[i]);
+        if (checkDataType() == INT)
+        {
+            fprintf(fp, "%d ", workArr[i]);
+        }
+        else if (checkDataType() == DOUBLE)
+        {
+            fprintf(fp, "%.3f ", workArr[i]);
+        }
     }
 
     fclose(fp);
