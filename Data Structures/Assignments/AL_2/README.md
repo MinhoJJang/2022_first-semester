@@ -84,3 +84,6 @@ typedef double dataType;
 ```
 
 저거 하나만 바꿔주면 자동으로 데이터타입이 전부 바뀌게 만들어놓았다.
+
+그래프 그리기 성공
+[GeoGebra_graph](https://www.geogebra.org/calculator/uqv7qsu9)
