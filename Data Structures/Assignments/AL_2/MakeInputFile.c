@@ -22,7 +22,8 @@ dataType randomData()
     dataType data;
     if (checkDataType() == INT)
     {
-        data = rand() - RAND_MAX / 2;
+        data = rand() - RAND_MAX / 2; // integers
+        // data = rand(); // postive numbers
     }
     else if (checkDataType() == DOUBLE)
     {

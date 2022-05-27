@@ -77,3 +77,10 @@ Sorted Well! :)
 ## 0527
 
 common.h 파일로 전체 정렬함수 관리
+
+```
+// 여기만 int, double로 변경
+typedef double dataType;
+```
+
+저거 하나만 바꿔주면 자동으로 데이터타입이 전부 바뀌게 만들어놓았다.

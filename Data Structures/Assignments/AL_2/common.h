@@ -13,15 +13,15 @@
 #define SAME 0
 #define UnSortedFileName "unSorted.dat"
 #define SortedFileName "Sorted.dat"
-#define DATA_SIZE 5000
-#define NUMBER_OF_DATA 100
 
-// 여기만 int, double로 변경
-typedef double dataType;
+// ========유동적 데이터값========
+#define DATA_SIZE 10000
+#define NUMBER_OF_DATA 100
+typedef int dataType;
+// ===============================
 
 typedef void fnSort(dataType arr[], int n);
 dataType workArr[DATA_SIZE];
-
 dataType typeCheck;
 
 int checkDataType()
@@ -50,28 +50,28 @@ void chkTimeLap(fnSort sort, dataType arr[], int n, char *sortTitle)
         sort(arr, n);
         end = clock();
         avg_time += (end - start);
-        printf("(size: %d) Running Time: %ld ms\n", n, end - start);
+        // printf("(size: %d) Running Time: %ld ms\n", n, end - start);
     }
     avg_time /= NUMBER_OF_DATA;
     printf("%s (size: %d) %d data - Average Time: %ld ms\n", sortTitle, n, NUMBER_OF_DATA, avg_time);
 }
 
-void printArr(dataType arr[], int n)
-{
-    printf("[ ");
-    for (int i = 0; i < n; i++)
-    {
-        if (checkDataType() == INT)
-        {
-            printf("%d ", arr[i]);
-        }
-        else if (checkDataType() == DOUBLE)
-        {
-            printf("%.3f ", arr[i]);
-        }
-    }
-    printf("]\n");
-}
+// void printArr(dataType arr[], int n)
+// {
+//     printf("[ ");
+//     for (int i = 0; i < n; i++)
+//     {
+//         if (checkDataType() == INT)
+//         {
+//             printf("%d ", arr[i]);
+//         }
+//         else if (checkDataType() == DOUBLE)
+//         {
+//             printf("%.3f ", arr[i]);
+//         }
+//     }
+//     printf("]\n");
+// }
 
 void checkIfSortedWell(dataType arr[], int n)
 {
