@@ -7,7 +7,7 @@
 
 #define UnSortedFileName "unSorted.dat"
 #define SortingFileName "Sorted.dat"
-#define DATA_SIZE 50000
+#define DATA_SIZE 5000
 typedef double dataType;
 typedef void fnSort(dataType arr[], int n);
 dataType workArr[DATA_SIZE];
