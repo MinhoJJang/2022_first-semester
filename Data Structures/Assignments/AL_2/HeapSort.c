@@ -13,7 +13,7 @@ double precision numbers (e.g. -1000.000 < number < +1000.000)
 
 # Part 2
 
-Category 2: HeapSort
+Category 3: HeapSort
 
 # Part 3
 
@@ -21,27 +21,22 @@ Load the generated lists from files / Save the evaluation results as separate fi
 The sorting correctness
 The running time
 
+> achieve Level 3
+
 # Part 4
 
 //TODO
 
-// If duplicate data is needed??? That means I have to change the data type everything..........
+// If duplicate data is needed??? That means I have to change every data type
 
 =====================================================
 */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include "common.h"
 
 #define SUCCESS 1
 #define FAIL 0
 #define ROOTIDX 1
-#define SUCCESS 1
-#define FAIL 0
-#define DATA_SIZE 50000
-#define FNAME "Sorted.dat"
 
 #define GET_PARENT_IDX(idx) ((idx) >> 1)
 #define GET_LEFT_IDX(idx) ((idx) << 1)
@@ -50,9 +45,8 @@ The running time
 #define COMP_ASC(d1, d2) ((d2) - (d1))
 #define COMP_DESC(d1, d2) ((d1) - (d2))
 
-typedef double dataType;
 typedef int fnPriorityComp(dataType d1, dataType d2);
-typedef void fnSort(dataType arr[], int n);
+
 typedef struct _heap
 {
     int numData;
@@ -165,90 +159,22 @@ void HeapSort(dataType arr[], int n)
     }
 }
 
-// 정렬함수 성능 측정
-void chkTimeLap(fnSort sort, dataType arr[], int n, char *sortTitle)
-{
-    clock_t start, end;
-    start = clock();
-    sort(arr, n); // 정렬 수행
-    end = clock();
-    printf("%s (size: %d) Running time: %ld ms\n", sortTitle, n, end - start);
-}
-
-void printArr(dataType arr[], int n)
-{
-    printf("[ ");
-    for (int i = 0; i < n; i++)
-    {
-        // printf("%d ", arr[i]);
-        printf("%.3f ", arr[i]);
-    }
-    printf("]\n");
-}
-
-void checkIfSortedWell(dataType arr[], int n)
-{
-    for (int i = 0; i < n - 1; i++)
-    {
-        if (arr[i] > arr[i + 1])
-        {
-            printf("It's Not Sorted!\n");
-            return;
-        }
-    }
-    printf("Sorted Well! :)\n");
-}
-
 int main()
 {
-    FILE *openFile = fopen("unSorted.dat", "r");
-    dataType workArr[DATA_SIZE];
-    int idx = 0;
-    if (openFile == 0)
-    {
-        printf("Could not open file\n");
-    }
-    else
-    {
-        dataType data;
-        while (!feof(openFile))
-        {
-            fscanf(openFile, "%lf\n", &data);
-            workArr[idx++] = data;
-        }
+    fileOpen();
 
-        fclose(openFile);
-    }
+    // ==============HeapSort Start================
 
     printf("\nHeapSort\n");
 
     Heap hp;
     heap_init(&hp, DATA_SIZE);
-
-    // printArr(workArr, DATA_SIZE);
-
     chkTimeLap(HeapSort, workArr, DATA_SIZE, "Random Based Array - HeapSort");
-
-    // printArr(workArr, DATA_SIZE);
     checkIfSortedWell(workArr, DATA_SIZE);
 
-    FILE *fp = fopen(FNAME, "w");
+    // ==============HeapSort End================
 
-    if (!fp)
-    {
-        perror("File Open Fail");
-        return 0;
-    }
-
-    for (int i = 0; i < DATA_SIZE; i++)
-    {
-        // fprintf(fp, "%d ", workArr[i]);
-        fprintf(fp, "%.3f ", workArr[i]);
-    }
-
-    fclose(fp);
-
+    fileClose();
     heap_destroy(&hp);
-
     return 0;
 }

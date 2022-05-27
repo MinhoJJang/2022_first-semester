@@ -1,9 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-#define FNAME "unSorted.dat"
-typedef double dataType;
-#define DATA_SIZE 50000
+#include "common.h"
 
 // 배열섞기
 void shuffleArr(dataType arr[], int n)
@@ -25,7 +22,6 @@ void shuffleArr(dataType arr[], int n)
 // dataType가 Double인 경우만 사용
 double randomDouble()
 {
-
     double a = (((double)rand() / RAND_MAX) * 2 - 1) * 1000;
     return a;
 }
@@ -41,12 +37,11 @@ void genIncSorted(dataType arr[], int n)
         // arr[i] = i - DATA_SIZE / 2;
 
         // 2. 배열이 double 타입일 경우
-
-        // arr[i] = randomDouble();
+        arr[i] = randomDouble();
 
         // arr[i] = (DATA_SIZE / 2 - i) / 2.125; // 내림차순
 
-        arr[i] = (i - (DATA_SIZE / 2)) / (DATA_SIZE / 2000 - 0.001); // 오름차순
+        // arr[i] = (i - (DATA_SIZE / 2)) / (DATA_SIZE / 2000 - 0.001); // 오름차순
     }
 }
 
@@ -54,7 +49,7 @@ void genIncSorted(dataType arr[], int n)
 void genRandom(dataType arr[], int n)
 {
     genIncSorted(arr, n);
-    // shuffleArr(arr, n);
+    shuffleArr(arr, n);
 }
 
 int main()
@@ -65,7 +60,7 @@ int main()
     dataType workArr[DATA_SIZE];
     memcpy(workArr, srcArr, sizeof(dataType) * DATA_SIZE);
 
-    FILE *fp = fopen(FNAME, "w");
+    FILE *fp = fopen(UnSortedFileName, "w");
 
     if (!fp)
     {
