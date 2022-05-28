@@ -1,6 +1,7 @@
 # Graph그리기 위한 데이터 저장
 
-각 n에 대하여, 각 Sort 함수를 100번 실행한 시간의 평균이다.
+각 n에 대하여, 각 Sort 함수를 100번 실행한 시간의 평균이다. level에 따라서는 수행시간이 비슷하기 때문에, 랜덤배열, 오름차순 배열, 내림차순 배열에 대하여 비교해보자.
+[GeoGebra_graph](https://www.geogebra.org/calculator/uqv7qsu9)
 
 ## level_1: postive numbers
 
