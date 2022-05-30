@@ -162,7 +162,6 @@ void HeapSort(dataType arr[], int n)
 
 int main()
 {
-    fileOpen();
 
     // ==============HeapSort Start================
 
@@ -171,6 +170,7 @@ int main()
     for (int i = 0; i < NUMBER_OF_DATA; i++)
     {
         makeFile();
+        fileOpen();
         Heap hp;
         heap_init(&hp, DATA_SIZE);
         chkTimeLap(HeapSort, workArr, DATA_SIZE, "Random Based Array - HeapSort");
@@ -178,6 +178,7 @@ int main()
         fileClose();
         heap_destroy(&hp);
     }
+
     RealAverageTime();
     // ==============HeapSort End================
 

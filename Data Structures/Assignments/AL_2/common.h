@@ -16,9 +16,9 @@
 #define SortedFileName "Sorted.dat"
 
 // ========유동적 데이터값========
-#define DATA_SIZE 7000
-#define NUMBER_OF_DATA 10
-typedef int dataType;
+#define DATA_SIZE 70000
+#define NUMBER_OF_DATA 100
+typedef double dataType;
 // ===============================
 
 typedef void fnSort(dataType arr[], int n);
