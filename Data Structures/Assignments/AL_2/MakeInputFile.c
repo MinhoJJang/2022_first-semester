@@ -1,6 +1,3 @@
-#ifndef __MAKEFILE_H__
-
-#define __MAKEFILE_H__
 
 #include "common.h"
 
@@ -26,8 +23,8 @@ dataType randomData()
     dataType data;
     if (checkDataType() == INT)
     {
-        data = rand() - RAND_MAX / 2; // integers
-        // data = rand(); // postive numbers
+        // data = rand() - RAND_MAX / 2; // integers
+        data = rand(); // postive numbers
     }
     else if (checkDataType() == DOUBLE)
     {
@@ -62,7 +59,7 @@ void genRandom(dataType arr[], int n)
     shuffleArr(arr, n);
 }
 
-int makeFile()
+int main()
 {
     dataType srcArr[DATA_SIZE];
     genRandom(srcArr, DATA_SIZE);
@@ -94,5 +91,3 @@ int makeFile()
 
     return 0;
 }
-
-#endif

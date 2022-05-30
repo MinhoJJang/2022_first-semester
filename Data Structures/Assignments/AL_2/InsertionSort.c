@@ -26,14 +26,15 @@ void InsertionSort(dataType arr[], int n)
 
 int main()
 {
+    printf("\nInsertionSort\n");
+
     fileOpen();
 
     // ============== InsertionSort Start ===============
-    printf("\nInsertionSort\n");
     chkTimeLap(InsertionSort, workArr, DATA_SIZE, "Random Based Array - InsertionSort");
     checkIfSortedWell(workArr, DATA_SIZE);
     // ============== InsertionSort End ===============
-
     fileClose();
+
     return 0;
 }

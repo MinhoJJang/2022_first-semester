@@ -16,15 +16,14 @@
 #define SortedFileName "Sorted.dat"
 
 // ========유동적 데이터값========
-#define DATA_SIZE 70000
-#define NUMBER_OF_DATA 100
-typedef double dataType;
+#define DATA_SIZE 20
+#define NUMBER_OF_DATA 10
+typedef int dataType;
 // ===============================
 
 typedef void fnSort(dataType arr[], int n);
 dataType workArr[DATA_SIZE];
 dataType typeCheck;
-static long AVGTIME = 0;
 
 int checkDataType()
 {
@@ -55,13 +54,8 @@ void chkTimeLap(fnSort sort, dataType arr[], int n, char *sortTitle)
         // printf("(size: %d) Running Time: %ld ms\n", n, end - start);
     }
     avg_time /= NUMBER_OF_DATA;
-    AVGTIME += avg_time;
-    printf("%s (size: %d) %d data - Average Time: %ld ms\n", sortTitle, n, NUMBER_OF_DATA, avg_time);
-}
 
-void RealAverageTime()
-{
-    printf("AVG Time = %ld ms\n", AVGTIME / NUMBER_OF_DATA);
+    printf("%s (size: %d) %d data - Average Time: %ld ms\n", sortTitle, n, NUMBER_OF_DATA, avg_time);
 }
 
 // void printArr(dataType arr[], int n)

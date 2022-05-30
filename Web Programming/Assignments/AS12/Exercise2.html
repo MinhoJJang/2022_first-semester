@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<!-- Get current date and time, and print it using toString[]
+Print it after adding 5 days, 3 hours, and 25 minutes
+Print it after adding 26 hours, and 78 minutes
+Print its weekday [Monday, Tuesday, ...] using getDay[] -->
+
+<title>Insert title here</title>
+
+</head>
+<body>
+
+<script type="text/javascript">
+
+var now = new Date();
+document.write(now + "<br/>");
+
+var then = new Date();
+then.setDate(now.getDate()+5);         
+then.setHours(now.getHours()+3);      
+then.setMinutes(now.getMinutes()+25);
+document.write(then+ "<br/>");
+
+var then1 = new Date();        
+then1.setHours(now.getHours()+26);      
+then1.setMinutes(now.getMinutes()+78);
+document.write(then1+ "<br/>");
+
+var day = now.getDay();
+var week = new Array( "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+document.write(week[day]);
+
+</script>
+
+
+</body>
+</html>

@@ -26,14 +26,16 @@ void BubbleSort(dataType arr[], int n) // 버블 정렬
 
 int main()
 {
+    printf("\nBubbleSort\n");
+
     fileOpen();
 
     // ============== BubbleSort Start ===============
-    printf("\nBubbleSort\n");
     chkTimeLap(BubbleSort, workArr, DATA_SIZE, "Random Based Array - BubbleSort");
     checkIfSortedWell(workArr, DATA_SIZE);
     // ============== BubbleSort End ===============
 
     fileClose();
+
     return 0;
 }

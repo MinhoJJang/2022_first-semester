@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<script type="text/javascript">
+var str1 = "Web";
+var str2 = "Programming";
+var str3 = "Rocks";
+
+var str = str1.concat(str2, str3);
+document.write(str+"<br/>");
+
+var subString = window.prompt("enter the subString");
+document.write(str.indexOf(subString)+"<br/>");
+
+var startingPoint = 2;
+var endPoint = startingPoint + 8;
+var str_sub = str.substring(startingPoint, endPoint);
+document.write(str_sub+"<br/>");
+
+document.write(str_sub.toUpperCase());
+
+</script>
+</body>
+</html>
