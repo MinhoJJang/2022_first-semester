@@ -1,3 +1,7 @@
+#ifndef __MAKEFILE_H__
+
+#define __MAKEFILE_H__
+
 #include "common.h"
 
 // 배열섞기
@@ -58,7 +62,7 @@ void genRandom(dataType arr[], int n)
     shuffleArr(arr, n);
 }
 
-int main()
+int makeFile()
 {
     dataType srcArr[DATA_SIZE];
     genRandom(srcArr, DATA_SIZE);
@@ -90,3 +94,5 @@ int main()
 
     return 0;
 }
+
+#endif

@@ -2,6 +2,7 @@
   "files.associations": {
     "malloc.h": "c",
     "quicksort.h": "c",
-    "common.h": "c"
+    "common.h": "c",
+    "makeinputfile.h": "c"
   }
 }

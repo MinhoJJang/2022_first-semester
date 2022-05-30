@@ -4,6 +4,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define type(x) _Generic((x), int        \
                          : "int", double \
@@ -15,14 +16,15 @@
 #define SortedFileName "Sorted.dat"
 
 // ========유동적 데이터값========
-#define DATA_SIZE 3000
-#define NUMBER_OF_DATA 100
+#define DATA_SIZE 7000
+#define NUMBER_OF_DATA 10
 typedef int dataType;
 // ===============================
 
 typedef void fnSort(dataType arr[], int n);
 dataType workArr[DATA_SIZE];
 dataType typeCheck;
+static long AVGTIME = 0;
 
 int checkDataType()
 {
@@ -53,7 +55,13 @@ void chkTimeLap(fnSort sort, dataType arr[], int n, char *sortTitle)
         // printf("(size: %d) Running Time: %ld ms\n", n, end - start);
     }
     avg_time /= NUMBER_OF_DATA;
+    AVGTIME += avg_time;
     printf("%s (size: %d) %d data - Average Time: %ld ms\n", sortTitle, n, NUMBER_OF_DATA, avg_time);
+}
+
+void RealAverageTime()
+{
+    printf("AVG Time = %ld ms\n", AVGTIME / NUMBER_OF_DATA);
 }
 
 // void printArr(dataType arr[], int n)
@@ -115,7 +123,7 @@ void fileOpen()
     }
 }
 
-void fileClose()
+int fileClose()
 {
     FILE *fp = fopen(SortedFileName, "w");
 
@@ -138,6 +146,7 @@ void fileClose()
     }
 
     fclose(fp);
+    return 0;
 }
 
 #endif

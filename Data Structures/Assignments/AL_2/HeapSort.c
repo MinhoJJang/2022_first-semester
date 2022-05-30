@@ -33,6 +33,7 @@ The running time
 */
 
 #include "common.h"
+#include "MakeInputFile.h"
 
 #define SUCCESS 1
 #define FAIL 0
@@ -167,14 +168,18 @@ int main()
 
     printf("\nHeapSort\n");
 
-    Heap hp;
-    heap_init(&hp, DATA_SIZE);
-    chkTimeLap(HeapSort, workArr, DATA_SIZE, "Random Based Array - HeapSort");
-    checkIfSortedWell(workArr, DATA_SIZE);
-
+    for (int i = 0; i < NUMBER_OF_DATA; i++)
+    {
+        makeFile();
+        Heap hp;
+        heap_init(&hp, DATA_SIZE);
+        chkTimeLap(HeapSort, workArr, DATA_SIZE, "Random Based Array - HeapSort");
+        checkIfSortedWell(workArr, DATA_SIZE);
+        fileClose();
+        heap_destroy(&hp);
+    }
+    RealAverageTime();
     // ==============HeapSort End================
 
-    fileClose();
-    heap_destroy(&hp);
     return 0;
 }
