@@ -16,7 +16,7 @@
 #define SortedFileName "Sorted.dat"
 
 // ========유동적 데이터값========
-#define DATA_SIZE 20
+#define DATA_SIZE 2000
 #define NUMBER_OF_DATA 10
 typedef int dataType;
 // ===============================
