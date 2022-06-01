@@ -30,14 +30,13 @@ void SelectionSort(dataType arr[], int n)
 
 int main()
 {
-    fileOpen();
-
-    // ============== SelectionSort Start ===============
     printf("\nSelectionSort\n");
-    chkTimeLap(SelectionSort, workArr, DATA_SIZE, "Random Based Array - SelectionSort");
-    checkIfSortedWell(workArr, DATA_SIZE);
-    // ============== SelectionSort End ===============
 
+    fileOpen();
+    // ============== SelectionSort Start ===============
+    chkTimeLap(SelectionSort, workArr, DATA_SIZE, "Random Based Array - SelectionSort");
+    // ============== SelectionSort End ===============
     fileClose();
+
     return 0;
 }

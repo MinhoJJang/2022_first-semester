@@ -168,7 +168,6 @@ int main()
     Heap hp;
     heap_init(&hp, DATA_SIZE);
     chkTimeLap(HeapSort, workArr, DATA_SIZE, "Random Based Array - HeapSort");
-    checkIfSortedWell(workArr, DATA_SIZE);
     fileClose();
     heap_destroy(&hp);
     // ==============HeapSort End================

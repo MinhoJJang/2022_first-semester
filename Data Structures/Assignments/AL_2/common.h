@@ -51,29 +51,13 @@ void chkTimeLap(fnSort sort, dataType arr[], int n, char *sortTitle)
         sort(arr, n);
         end = clock();
         avg_time += (end - start);
-        // printf("(size: %d) Running Time: %ld ms\n", n, end - start);
+        printf("(size: %d) Running Time: %ld ms\n", n, end - start);
+        checkIfSortedWell(arr, n);
     }
     avg_time /= NUMBER_OF_DATA;
 
     printf("%s (size: %d) %d data - Average Time: %ld ms\n", sortTitle, n, NUMBER_OF_DATA, avg_time);
 }
-
-// void printArr(dataType arr[], int n)
-// {
-//     printf("[ ");
-//     for (int i = 0; i < n; i++)
-//     {
-//         if (checkDataType() == INT)
-//         {
-//             printf("%d ", arr[i]);
-//         }
-//         else if (checkDataType() == DOUBLE)
-//         {
-//             printf("%.3f ", arr[i]);
-//         }
-//     }
-//     printf("]\n");
-// }
 
 void checkIfSortedWell(dataType arr[], int n)
 {

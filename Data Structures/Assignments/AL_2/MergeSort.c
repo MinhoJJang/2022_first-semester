@@ -68,7 +68,6 @@ int main()
 	fileOpen();
 	// ============== MergeSort Start ===============
 	chkTimeLap(MergeSortMain, workArr, DATA_SIZE, "Random Based Array - MergeSort");
-	checkIfSortedWell(workArr, DATA_SIZE);
 	// ============== MergeSort End ===============
 	fileClose();
 

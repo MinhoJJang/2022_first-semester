@@ -79,15 +79,13 @@ void QuickSortMain(dataType arr[], int n)
 
 int main()
 {
-    fileOpen();
-
-    // ============== QuickSort Start ===============
-
     printf("\nQuickSort\n");
-    chkTimeLap(QuickSortMain, workArr, DATA_SIZE, "Random Based Array - QuickSort");
-    checkIfSortedWell(workArr, DATA_SIZE);
 
+    fileOpen();
+    // ============== QuickSort Start ===============
+    chkTimeLap(QuickSortMain, workArr, DATA_SIZE, "Random Based Array - QuickSort");
     // ============== QuickSort End ===============
     fileClose();
+
     return 0;
 }
