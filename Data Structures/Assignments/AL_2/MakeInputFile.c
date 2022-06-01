@@ -40,10 +40,6 @@ void dataInput(dataType arr[], int n)
     srand(time(NULL));
     for (int i = 0; i < n; i++)
     {
-        // 1. 배열이 int 타입일 경우
-        // arr[i] = i - DATA_SIZE / 2;
-
-        // 2. 배열이 double 타입일 경우
         arr[i] = randomData();
 
         // arr[i] = (DATA_SIZE / 2 - i) / 2.125; // 내림차순
