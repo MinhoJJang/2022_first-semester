@@ -34,17 +34,16 @@ dataType randomData()
     return data;
 }
 
-// double타입의 경우 그냥 삽입부터 랜덤임
 void dataInput(dataType arr[], int n)
 {
     srand(time(NULL));
     for (int i = 0; i < n; i++)
     {
-        arr[i] = randomData();
+        // arr[i] = randomData();
 
-        // arr[i] = (DATA_SIZE / 2 - i) / 2.125; // 내림차순
+        arr[i] = (DATA_SIZE / 2 - i) / 1.125; // 내림차순
 
-        // arr[i] = (i - (DATA_SIZE / 2)) / (DATA_SIZE / 2000 - 0.001); // 오름차순
+        // arr[i] = (i - DATA_SIZE / 2) / 1.125; // 오름차순
     }
 }
 
@@ -52,7 +51,7 @@ void dataInput(dataType arr[], int n)
 void genRandom(dataType arr[], int n)
 {
     dataInput(arr, n);
-    shuffleArr(arr, n);
+    // shuffleArr(arr, n);
 }
 
 int main()

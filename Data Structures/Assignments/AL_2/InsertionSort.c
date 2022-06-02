@@ -29,10 +29,8 @@ int main()
     printf("\nInsertionSort\n");
 
     fileOpen();
-
     // ============== InsertionSort Start ===============
     chkTimeLap(InsertionSort, workArr, DATA_SIZE, "Random Based Array - InsertionSort");
-    checkIfSortedWell(workArr, DATA_SIZE);
     // ============== InsertionSort End ===============
     fileClose();
 

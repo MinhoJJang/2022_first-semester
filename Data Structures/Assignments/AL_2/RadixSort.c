@@ -86,7 +86,6 @@ int main()
     fileOpen();
     // ============== RadixSort Start ===============
     chkTimeLap(radixSort, workArr, DATA_SIZE, "Random Based Array - RadixSort");
-    checkIfSortedWell(workArr, DATA_SIZE);
     // ============== RadixSort End ===============
     fileClose();
 
