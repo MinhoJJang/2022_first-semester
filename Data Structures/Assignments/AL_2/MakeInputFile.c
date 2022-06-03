@@ -41,9 +41,9 @@ void dataInput(dataType arr[], int n)
     {
         // arr[i] = randomData();
 
-        arr[i] = (DATA_SIZE / 2 - i) / 1.125; // 내림차순
+        // arr[i] = (DATA_SIZE / 2 - i) / 1.125; // 내림차순
 
-        // arr[i] = (i - DATA_SIZE / 2) / 1.125; // 오름차순
+        arr[i] = (i - DATA_SIZE / 2) / 1.125; // 오름차순
     }
 }
 
@@ -51,7 +51,7 @@ void dataInput(dataType arr[], int n)
 void genRandom(dataType arr[], int n)
 {
     dataInput(arr, n);
-    // shuffleArr(arr, n);
+    shuffleArr(arr, n);
 }
 
 int main()

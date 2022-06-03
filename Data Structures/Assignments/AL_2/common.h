@@ -40,7 +40,7 @@ int checkDataType()
 // Time Check Function
 void chkTimeLap(fnSort sort, dataType arr[], int n, char *sortTitle)
 {
-    long avg_time = 0;
+    double avg_time = 0;
     dataType base[DATA_SIZE];
     memcpy(base, arr, sizeof(dataType) * DATA_SIZE);
     for (int i = 0; i < NUMBER_OF_DATA; i++)
@@ -50,8 +50,8 @@ void chkTimeLap(fnSort sort, dataType arr[], int n, char *sortTitle)
         start = clock();
         sort(arr, n);
         end = clock();
-        avg_time += (end - start);
-        printf("(size: %d) Running Time: %ld ms\n", n, end - start);
+        avg_time += (double)(end - start) / CLOCKS_PER_SEC;
+        printf("(size: %d) Running Time: %lf s\n", n, (double)(end - start) / CLOCKS_PER_SEC);
         checkIfSortedWell(arr, n);
     }
     avg_time /= NUMBER_OF_DATA;
