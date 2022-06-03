@@ -56,7 +56,7 @@ void chkTimeLap(fnSort sort, dataType arr[], int n, char *sortTitle)
     }
     avg_time /= NUMBER_OF_DATA;
 
-    printf("%s (size: %d) %d data - Average Time: %ld ms\n", sortTitle, n, NUMBER_OF_DATA, avg_time);
+    printf("%s (size: %d) %d data - Average Time: %lf s\n", sortTitle, n, NUMBER_OF_DATA, avg_time);
 }
 
 void checkIfSortedWell(dataType arr[], int n)
