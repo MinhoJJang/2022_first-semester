@@ -83,7 +83,7 @@ int main()
 
     fileOpen();
     // ============== QuickSort Start ===============
-    chkTimeLap(QuickSortMain, workArr, DATA_SIZE, "Random Based Array - QuickSort");
+    chkTimeLap(QuickSortMain, workArr, DATA_SIZE, arrayType);
     // ============== QuickSort End ===============
     fileClose();
 

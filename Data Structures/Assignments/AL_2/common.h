@@ -18,7 +18,8 @@
 // ========유동적 데이터값========
 #define DATA_SIZE 10000
 #define NUMBER_OF_DATA 10
-typedef int dataType;
+typedef double dataType;
+char *arrayType = "Ascending Array";
 // ===============================
 
 typedef void fnSort(dataType arr[], int n);

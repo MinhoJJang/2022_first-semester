@@ -30,7 +30,7 @@ int main()
 
     fileOpen();
     // ============== InsertionSort Start ===============
-    chkTimeLap(InsertionSort, workArr, DATA_SIZE, "Random Based Array - InsertionSort");
+    chkTimeLap(InsertionSort, workArr, DATA_SIZE, arrayType);
     // ============== InsertionSort End ===============
     fileClose();
 

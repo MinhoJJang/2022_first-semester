@@ -34,7 +34,7 @@ int main()
 
     fileOpen();
     // ============== SelectionSort Start ===============
-    chkTimeLap(SelectionSort, workArr, DATA_SIZE, "Random Based Array - SelectionSort");
+    chkTimeLap(SelectionSort, workArr, DATA_SIZE, arrayType);
     // ============== SelectionSort End ===============
     fileClose();
 

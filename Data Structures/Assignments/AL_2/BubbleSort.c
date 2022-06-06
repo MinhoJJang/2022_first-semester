@@ -12,7 +12,6 @@ void BubbleSort(dataType arr[], int n) // 버블 정렬
         // 비교횟수
         for (j = 0; j < (n - i) - 1; j++)
         {
-
             // 1. 인접한 두개 비교
             if (arr[j] > arr[j + 1]) // 2. 크기가 반대라면.. <<비교>>
             {
@@ -30,7 +29,7 @@ int main()
 
     fileOpen();
     // ============== BubbleSort Start ===============
-    chkTimeLap(BubbleSort, workArr, DATA_SIZE, "Random Based Array - BubbleSort");
+    chkTimeLap(BubbleSort, workArr, DATA_SIZE, arrayType);
     // ============== BubbleSort End ===============
     fileClose();
 

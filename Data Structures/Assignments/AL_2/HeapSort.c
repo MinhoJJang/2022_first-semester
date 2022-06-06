@@ -167,7 +167,7 @@ int main()
     fileOpen();
     Heap hp;
     heap_init(&hp, DATA_SIZE);
-    chkTimeLap(HeapSort, workArr, DATA_SIZE, "Random Based Array - HeapSort");
+    chkTimeLap(HeapSort, workArr, DATA_SIZE, arrayType);
     fileClose();
     heap_destroy(&hp);
     // ==============HeapSort End================
