@@ -4,5 +4,6 @@
     "quicksort.h": "c",
     "common.h": "c",
     "makeinputfile.h": "c"
-  }
+  },
+  "liveServer.settings.port": 5501
 }

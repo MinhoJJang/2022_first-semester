@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button id="heading" onclick="exercise2_1()">Exercise 2.1</button>
+    <button onclick="exercise2_2()">Exercise 2.2</button>
+    <br /><br />
+    <div onmousedown="mouseDown(this)" onmouseup="mouseUp(this)">
+      Press Here
+    </div>
+    <script>
+      function exercise2_1() {
+        document.getElementById("heading").innerHTML = "JavaScript Exercise 1";
+        document.getElementById("ex1").innerHTML = "Exercise 1.1";
+        var img1 = document.getElementById("img1");
+        img1.src = "banana.png";
+        img1.width = 300;
+      }
+      function exercise2_2() {
+        document.getElementById("sp1").innerHTML =
+          document.getElementById("a1").name;
+        var ex2 = document.getElementById("ex2");
+        ex2.style.color = "red";
+        ex2.style.fontStyle = "italic";
+      }
+      function mouseDown(elem) {
+        elem.style.backgroundColor = "#1ec5e5";
+        elem.innerHTML = "Release mouse";
+      }
+      function mouseUp(elem) {
+        elem.style.backgroundColor = "#d94a38";
+        elem.innerHTML = "Press here";
+      }
+    </script>
+  </body>
+</html>
