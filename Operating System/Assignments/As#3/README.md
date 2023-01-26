@@ -95,8 +95,7 @@ Recommendation
 You can use a data structure similar to a Process Control Block (PCB) for each task,
 though yours will be much simpler.
 Two queues are maintained; one for the job queue and one for the ready queue
-
-
+
 The job queue may be implemented simply with an Array!
 and the ready queue with a linked-list
 Simulator
